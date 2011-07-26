@@ -16,6 +16,10 @@ package org.apache.tapestry5.corelib.components;
 
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.corelib.base.AbstractPropertyOutput;
+import org.apache.tapestry5.internal.services.GridOutputContext;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.Environment;
+import org.apache.tapestry5.services.PropertyOutputContext;
 
 /**
  * Part of {@link Grid} that renders the markup inside a single data cell. GridCell is used inside a pair of loops; the
@@ -25,8 +29,27 @@ import org.apache.tapestry5.corelib.base.AbstractPropertyOutput;
  */
 public class GridCell extends AbstractPropertyOutput
 {
+    @Inject
+    private Environment environment;
+
     Object beginRender(MarkupWriter writer)
     {
-        return renderPropertyValue(writer, getPropertyModel().getId() + "Cell");
+        Object returnValue = renderPropertyValue(writer, getPropertyModel().getId() + "Cell");
+
+        pushGridOutputContextInEnvironment();
+
+        return returnValue;
+    }
+
+    private void pushGridOutputContextInEnvironment()
+    {
+        GridOutputContext gridOutputContext = environment.peek(GridOutputContext.class);
+        if (gridOutputContext == null)
+        {
+            gridOutputContext = new GridOutputContext();
+            environment.push(GridOutputContext.class, gridOutputContext);
+        }
+
+        gridOutputContext.add(environment.peek(PropertyOutputContext.class));
     }
 }
