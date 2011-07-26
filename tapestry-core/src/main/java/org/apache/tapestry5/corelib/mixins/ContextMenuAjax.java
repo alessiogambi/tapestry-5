@@ -3,9 +3,11 @@ package org.apache.tapestry5.corelib.mixins;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.Renderable;
+import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.components.ProgressiveDisplay;
 import org.apache.tapestry5.dom.Element;
@@ -14,6 +16,7 @@ import org.apache.tapestry5.ioc.internal.util.InternalUtils;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.runtime.RenderCommand;
 import org.apache.tapestry5.runtime.RenderQueue;
+import org.apache.tapestry5.services.PropertyOutputContext;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 public class ContextMenuAjax extends ContextMenuBase
@@ -53,6 +56,7 @@ public class ContextMenuAjax extends ContextMenuBase
         };
     }
 
+    @Override
     protected RenderCommand renderMenu(final JSONObject spec, final String contextMenuId, final Object[] context)
     {
         /**
@@ -94,16 +98,18 @@ public class ContextMenuAjax extends ContextMenuBase
                     public void render(MarkupWriter writer, RenderQueue queue)
                     {
                         /**
-                         * We don't use the zone as the context menu because if we are trying to hide the ContextMenu
-                         * (example onMouseout), and if the zone is not yet updated we won't be able to update the
-                         * zone's style.display because of the zone update, so the zone will stay visible when it's not
-                         * supposed to.
+                         * Rendering a zone inside the context menu. We don't use the zone as the context menu because
+                         * if we are trying to hide the ContextMenu (example onMouseout), and if the zone is not yet
+                         * updated we won't be able to update the zone's style.display because of the zone update, so
+                         * the zone will stay visible when it's not supposed to.
                          */
-                        // the zone surrounding the context menu
-                        final String zoneDiv = resources.getElementName("div");
-                        writer.element(zoneDiv, "id", contextMenuId);
-                        writer.attributes("style", "display: none; position: absolute;");
 
+                        // the context menu
+                        writer.element("div", "id", contextMenuId, "style", "display: none; position: absolute;")
+                                .addClassName(T_CONTEXTMENU);
+
+                        // the zone inside the context menu
+                        final String zoneDiv = resources.getElementName("div");
                         Element e = writer.element(zoneDiv, "id", zoneId);
                         resources.renderInformalParameters(writer);
                         e.addClassName("t-zone");
@@ -121,16 +127,10 @@ public class ContextMenuAjax extends ContextMenuBase
      *            the context
      * @return the context menu block;
      */
-    Block onShowMenu(Object[] context)
+    Block onShowMenu(EventContext context)
     {
         triggerEvent(context);
 
         return getContextMenuBlock();
-    }
-
-    @Override
-    protected boolean isAjax()
-    {
-        return true;
     }
 }

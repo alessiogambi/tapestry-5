@@ -61,14 +61,18 @@ public class ContextMenuDemo
     @Property
     private String propertyName;
 
-    @Environmental
-    private PropertyOutputContext propertyOutputContext;
-
-    void onContextmenuFromGrid()
+    void onContextmenuFromGrid(Track track, String propertyName, Object propertyValue)
     {
-        this.track = (Track) propertyOutputContext.getObjectValue();
-        this.propertyName = propertyOutputContext.getPropertyName();
-        this.propertyValue = propertyOutputContext.getPropertyValue();
+        this.track = track;
+        this.propertyName = propertyName;
+        this.propertyValue = propertyValue;
+    }
+
+    void onContextmenuFromGridAjax(Track track, String propertyName, Object propertyValue)
+    {
+        this.track = track;
+        this.propertyName = propertyName;
+        this.propertyValue = propertyValue;
     }
 
 }

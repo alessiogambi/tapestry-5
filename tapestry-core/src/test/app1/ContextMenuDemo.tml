@@ -19,7 +19,17 @@
 		</t:any>
 	</t:loop>
 
-	<t:grid t:id="grid" t:mixins="contextmenu" source="tracks">
+	<t:grid t:id="grid" t:mixins="contextMenu" source="tracks" rowsPerPage="5">
+		<p:contextmenu>
+			object:${track?.title}
+			<br />
+			propertyName:${propertyName}
+			<br />
+			propertyValue:${propertyValue}
+		</p:contextmenu>
+	</t:grid>
+	
+	<t:grid t:id="gridAjax" t:mixins="contextMenuAjax" source="tracks" rowsPerPage="5">
 		<p:contextmenu>
 			object:${track?.title}
 			<br />
