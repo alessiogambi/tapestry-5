@@ -1,12 +1,14 @@
 package org.apache.tapestry5.corelib.mixins;
 
 import org.apache.tapestry5.EventConstants;
+import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.runtime.RenderCommand;
 import org.apache.tapestry5.runtime.RenderQueue;
+import org.apache.tapestry5.services.PropertyOutputContext;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
@@ -29,7 +31,7 @@ public class ContextMenu extends ContextMenuBase
     private JavaScriptSupport javaScriptSupport;
 
     @Override
-    protected RenderCommand renderMenu(final JSONObject spec, final String contextMenuId, final Object[] context)
+    protected RenderCommand renderMenu(JSONObject spec, final String contextMenuId, final Object[] context)
     {
         javaScriptSupport.addInitializerCall("contextMenu", spec);
 
@@ -50,18 +52,14 @@ public class ContextMenu extends ContextMenuBase
                 queue.push(new RenderCommand()
                 {
                     public void render(MarkupWriter writer, RenderQueue queue)
-                    {                        
+                    {
+                        triggerEvent(context);
+
                         writer.element("div", "id", contextMenuId, "style", "display: none; position: absolute;")
-                                .addClassName("t-contextmenu");
+                                .addClassName(T_CONTEXTMENU);
                     }
                 });
             }
         };
-    }
-
-    @Override
-    protected boolean isAjax()
-    {
-        return false;
     }
 }

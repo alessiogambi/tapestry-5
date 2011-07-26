@@ -5,11 +5,11 @@ import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ClientElement;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventConstants;
+import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.annotations.Events;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectContainer;
-import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.ContextMenuClientEvent;
 import org.apache.tapestry5.corelib.ContextMenuGridLevel;
@@ -46,6 +46,9 @@ import org.apache.commons.lang.NotImplementedException;
 @Events(EventConstants.CONTEXTMENU)
 public abstract class ContextMenuBase
 {
+
+    protected static final String T_CONTEXTMENU = "t-contextmenu";
+
     /**
      * A block providing the content for the context menu.
      */
@@ -279,39 +282,18 @@ public abstract class ContextMenuBase
      * 
      * @param context
      */
+    protected void triggerEvent(EventContext context)
+    {
+        resources.triggerContextEvent(EventConstants.CONTEXTMENU, context, null);
+    }
+
+    /**
+     * Triggers a {@link EventConstants.CONTEXTMENU} event
+     * 
+     * @param context
+     */
     protected void triggerEvent(Object[] context)
     {
-        resources.triggerEvent(EventConstants.CONTEXTMENU, context, null);
-    }
-
-    /**
-     * Triggers a {@link EventConstants.CONTEXTMENU} event
-     * 
-     * @param context
-     */
-    @Log
-    protected void triggerGridCellEvent(Object objectValue, String propertyId, String propertyName,
-            Object propertyValue, Object[] context)
-    {
-        while (environment.peek(PropertyOutputContext.class) != null)
-            environment.pop(PropertyOutputContext.class);
-        environment.push(PropertyOutputContext.class, new GridCellOutputContext(objectValue, propertyId, propertyName,
-                propertyValue));
-
-        resources.triggerEvent(EventConstants.CONTEXTMENU, context, null);
-    }
-
-    /**
-     * Triggers a {@link EventConstants.CONTEXTMENU} event
-     * 
-     * @param context
-     */
-    protected void triggerGridRowEvent(Object objectValue, Object[] context)
-    {
-        while (environment.peek(PropertyOutputContext.class) != null)
-            environment.pop(PropertyOutputContext.class);
-        environment.push(PropertyOutputContext.class, new GridRowOutputContext(objectValue));
-
         resources.triggerEvent(EventConstants.CONTEXTMENU, context, null);
     }
 
@@ -332,62 +314,44 @@ public abstract class ContextMenuBase
     }
 
     /**
-     * Returns true if the context menu is rendered using ajax and not right away
-     */
-    protected abstract boolean isAjax();
-
-    /**
      * Renders the actual context menu. Should be overridden by inheriting classes.
      * 
-     * @param elementId
-     *            the id of the element triggering the context menu or null if the id is not known
+     * @param spec
+     *            the json spec that should be sent to the contextmenu.js t5 initializer
      * @param contextMenuId
      *            id of the context menu element
-     * @param gridCellIndex
-     *            the index of the grid cell (td) that is the menu element
-     * @param gridRowIndex
-     *            the index of the grid row (tr) that is the menu element
      * @param context
      *            the menu context
      * @return a RenderCommand that renders the context menu
      */
     protected abstract RenderCommand renderMenu(JSONObject spec, String contextMenuId, Object[] context);
 
-    private RenderCommand renderMenu(String elementId, String contextMenuId, Object[] context)
+    protected RenderCommand renderMenu(String elementId, String contextMenuId, Object[] context)
     {
-        if (!isAjax()) triggerEvent(context);
-
         return renderMenu(getSpec(elementId, contextMenuId, null, null), contextMenuId, context);
     }
 
-    private RenderCommand renderMenuForGridRow(String elementId, String contextMenuId, Integer gridRowIndex,
+    protected RenderCommand renderMenuForGridRow(String elementId, String contextMenuId, Integer gridRowIndex,
             Object[] context, Object objectValue)
     {
-        if (!isAjax()) triggerGridRowEvent(objectValue, context);
-
-        return renderMenu(getSpec(elementId, contextMenuId, null, gridRowIndex), contextMenuId, context);
+        return renderMenu(
+                getSpec(elementId, contextMenuId, gridRowIndex, null), contextMenuId, mergeContexts(new Object[]
+                { objectValue }, context));
     }
 
-    private RenderCommand renderMenuForGridCell(final String elementId, final String contextMenuId,
-            final Integer gridCellIndex, final Object[] context, final PropertyOutputContext cellContext)
+    protected RenderCommand renderMenuForGridCell(String elementId, String contextMenuId, Integer gridCellIndex,
+            Object[] context, PropertyOutputContext cellContext)
     {
-        if (isAjax())
-            return renderMenu(getSpec(elementId, contextMenuId, gridCellIndex, null), contextMenuId, context);
-
-        return new RenderCommand()
-        {
-            public void render(MarkupWriter writer, RenderQueue queue)
-            {
-                triggerGridCellEvent(
-                        cellContext.getObjectValue(), cellContext.getPropertyId(), cellContext.getPropertyName(),
-                        cellContext.getPropertyValue(), context);
-
-                queue.push(renderMenu(getSpec(elementId, contextMenuId, gridCellIndex, null), contextMenuId, context));
-            }
-        };
+        return renderMenu(
+                getSpec(elementId, contextMenuId, null, gridCellIndex),
+                contextMenuId,
+                mergeContexts(
+                        new Object[]
+                        { cellContext.getObjectValue(), cellContext.getPropertyName(), cellContext.getPropertyValue() },
+                        context));
     }
 
-    private JSONObject getSpec(String elementId, String contextMenuId, Integer gridCellIndex, Integer gridRowIndex)
+    protected JSONObject getSpec(String elementId, String contextMenuId, Integer gridRowIndex, Integer gridCellIndex)
     {
         return new JSONObject("elementId", elementId,
 
@@ -400,5 +364,22 @@ public abstract class ContextMenuBase
         "clientEvent", String.valueOf(getClientEvent().ordinal()),
 
         "hideType", String.valueOf(getHideType().ordinal()));
+    }
+
+    private Object[] mergeContexts(Object[] context1, Object[] context2)
+    {
+        if (context1 == null && context2 == null) return new Object[0];
+        if (context1 == null) return context2;
+        if (context2 == null) return context1;
+
+        Object[] context = new Object[context1.length + context2.length];
+        int i = 0;
+        for (Object o : context1)
+            context[i++] = o;
+        i = 0;
+        for (Object o : context2)
+            context[i++] = o;
+
+        return context;
     }
 }
