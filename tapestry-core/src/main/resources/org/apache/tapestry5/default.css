@@ -493,3 +493,9 @@ DIV.t-available-values UL LI
   list-style-type : disc;
   margin-left: 0px;
 }
+
+DIV.t-contextmenu {
+	background-color: white;
+	border: 1px solid silver;
+	padding: 5px 10px;
+}

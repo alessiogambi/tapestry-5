@@ -171,7 +171,7 @@ public class PeriodicExecutorImpl implements PeriodicExecutor, Runnable, Registr
         {
             if (logger.isInfoEnabled())
             {
-                logger.info(String.format("Executing job #%d (%s)", jobId, name));
+                //logger.info(String.format("Executing job #%d (%s)", jobId, name));
             }
 
             try

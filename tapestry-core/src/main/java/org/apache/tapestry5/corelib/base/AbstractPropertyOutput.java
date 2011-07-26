@@ -30,13 +30,13 @@ import org.apache.tapestry5.services.PropertyOutputContext;
 
 /**
  * Base class for components that output a property value using a {@link PropertyModel}. There's a relationship between
- * such a component and its container, as the container may provide messages in its message catalog needed by the {@link
- * Block}s that render the values. In addition, the component may be passed Block parameters that are output overrides
- * for specified properties.
+ * such a component and its container, as the container may provide messages in its message catalog needed by the
+ * {@link Block}s that render the values. In addition, the component may be passed Block parameters that are output
+ * overrides for specified properties.
  * <p/>
- * Subclasses will implement a <code>beginRender()</code> method that invokes {@link #renderPropertyValue(MarkupWriter,
- * String)}.
- *
+ * Subclasses will implement a <code>beginRender()</code> method that invokes
+ * {@link #renderPropertyValue(MarkupWriter, String)}.
+ * 
  * @see BeanBlockSource
  */
 public abstract class AbstractPropertyOutput
@@ -61,8 +61,8 @@ public abstract class AbstractPropertyOutput
     private Object object;
 
     /**
-     * Source for property display blocks. This defaults to the default implementation of {@link
-     * org.apache.tapestry5.services.BeanBlockSource}.
+     * Source for property display blocks. This defaults to the default implementation of
+     * {@link org.apache.tapestry5.services.BeanBlockSource}.
      */
     @Parameter(required = true, allowNull = false)
     private BeanBlockSource beanBlockSource;
@@ -92,46 +92,51 @@ public abstract class AbstractPropertyOutput
      */
     protected Object renderPropertyValue(MarkupWriter writer, String overrideBlockId)
     {
+        final Object propertyValue = readPropertyForObject();
+        final Object objectValue = object;
+        final String propertyName = model.getPropertyName();
+        final String propertyId = model.getId();
+
+        PropertyOutputContext context = new PropertyOutputContext()
+        {
+            public Object getObjectValue()
+            {
+                return objectValue;
+            }
+
+            public Messages getMessages()
+            {
+                return overrides.getOverrideMessages();
+            }
+
+            public Object getPropertyValue()
+            {
+                return propertyValue;
+            }
+
+            public String getPropertyId()
+            {
+                return propertyId;
+            }
+
+            public String getPropertyName()
+            {
+                return propertyName;
+            }
+
+        };
+
+        environment.push(PropertyOutputContext.class, context);
+        mustPopEnvironment = true;
+
         Block override = overrides.getOverrideBlock(overrideBlockId);
 
         if (override != null) return override;
 
         String datatype = model.getDataType();
+        if (beanBlockSource.hasDisplayBlock(datatype)) return beanBlockSource.getDisplayBlock(datatype);
 
-        if (beanBlockSource.hasDisplayBlock(datatype))
-        {
-            PropertyOutputContext context = new PropertyOutputContext()
-            {
-                public Messages getMessages()
-                {
-                    return overrides.getOverrideMessages();
-                }
-
-                public Object getPropertyValue()
-                {
-                    return readPropertyForObject();
-                }
-
-                public String getPropertyId()
-                {
-                    return model.getId();
-                }
-
-                public String getPropertyName()
-                {
-                    return model.getPropertyName();
-                }
-            };
-
-            environment.push(PropertyOutputContext.class, context);
-            mustPopEnvironment = true;
-
-            return beanBlockSource.getDisplayBlock(datatype);
-        }
-
-        Object value = readPropertyForObject();
-
-        String text = value == null ? "" : value.toString();
+        String text = propertyValue == null ? "" : propertyValue.toString();
 
         if (InternalUtils.isNonBlank(text))
         {
