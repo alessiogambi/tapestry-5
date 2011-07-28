@@ -14,12 +14,12 @@ import org.apache.tapestry5.services.Request;
 
 public class GridColumnSort
 {
-    private static final String SORT_ATTR = "sort";
-
-    private static final String ORDER_ATTR = "sortorder";
-
     @Parameter(value = "true", allowNull = false, defaultPrefix = BindingConstants.LITERAL)
     private boolean includeId;
+
+    private static final String SORT_PARAM = "sort";
+
+    private static final String ORDER_PARAM = "sortorder";
 
     @InjectContainer
     private Grid grid;
@@ -64,9 +64,9 @@ public class GridColumnSort
         String gridId = resources.getContainer().getComponentResources().getId();
         String paramName;
         if (includeId)
-            paramName = String.format("%s.%s", gridId, SORT_ATTR);
+            paramName = String.format("%s.%s", gridId, SORT_PARAM);
         else
-            paramName = String.format("%s", SORT_ATTR);
+            paramName = String.format("%s", SORT_PARAM);
 
         return paramName;
     }
@@ -76,9 +76,9 @@ public class GridColumnSort
         String gridId = resources.getContainer().getComponentResources().getId();
         String paramName;
         if (includeId)
-            paramName = String.format("%s.%s", gridId, ORDER_ATTR);
+            paramName = String.format("%s.%s", gridId, ORDER_PARAM);
         else
-            paramName = String.format("%s", ORDER_ATTR);
+            paramName = String.format("%s", ORDER_PARAM);
 
         return paramName;
     }

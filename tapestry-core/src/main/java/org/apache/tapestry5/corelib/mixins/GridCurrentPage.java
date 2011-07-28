@@ -12,10 +12,10 @@ import org.apache.tapestry5.services.Request;
 
 public class GridCurrentPage
 {
-    private static final String PAGE_ATTR = "page";
-
     @Parameter(value = "true", allowNull = false, defaultPrefix = BindingConstants.LITERAL)
     private boolean includeId;
+
+    private static final String PAGE_PARAM = "page";
 
     @InjectContainer
     private Grid grid;
@@ -53,9 +53,9 @@ public class GridCurrentPage
 
         String paramName;
         if (includeId)
-            paramName = String.format("%s.%s", gridId, PAGE_ATTR);
+            paramName = String.format("%s.%s", gridId, PAGE_PARAM);
         else
-            paramName = String.format("%s", PAGE_ATTR);
+            paramName = String.format("%s", PAGE_PARAM);
 
         return paramName;
     }

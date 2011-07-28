@@ -1,4 +1,4 @@
-// Copyright 2007, 2008 The Apache Software Foundation
+// Copyright 2011 The Apache Software Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,32 +14,66 @@
 
 package org.apache.tapestry5.integration.app1.pages;
 
+import org.apache.tapestry5.Link;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.KeepRequestParameters;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.integration.app1.data.Track;
 import org.apache.tapestry5.integration.app1.services.MusicLibrary;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.PageRenderLinkSource;
 
 import java.util.List;
 
 @KeepRequestParameters(components =
-{ "grid.pager", "grid.columns" })
-public class GridMixinsDemo
+{ "grid1.*" })
+public class GridCurrentPageMixinDemo
 {
     @Inject
     private MusicLibrary library;
 
     @Component
-    private Grid grid;
+    private Grid grid1;
+
+    @Component
+    private Grid grid2;
 
     public List<Track> getTracks()
     {
         return library.getTracks();
     }
 
-    void onActionFromReset()
+    void onActionFromReset1()
     {
-        grid.reset();
+        grid1.reset();
     }
+
+    void onActionFromReset2()
+    {
+        grid2.reset();
+    }
+
+    @Inject
+    private PageRenderLinkSource linkSource;
+
+    Link onActionFromGotoPage2()
+    {
+        Link link = linkSource.createPageRenderLink(GridCurrentPageMixinDemo.class);
+
+        link.addParameter("page", "2");
+
+        return link;
+    }
+
+    Link onActionFromGotoGrid1Page2Grid2Page3()
+    {
+        Link link = linkSource.createPageRenderLink(GridCurrentPageMixinDemo.class);
+
+        link.addParameter("page", "2");
+
+        link.addParameter("grid2.page", "3");
+
+        return link;
+    }
+
 }

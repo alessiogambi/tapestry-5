@@ -485,8 +485,13 @@ public class Index
 
                     new Item("BeanEditFormPrepareBubbling", "BeanEditor Prepare Bubbling Demo", "Prepare event bubbling"),
 
-                    new Item("NestedFormFragment", "Nested Form Fragment Demo", "Nesting Form Fragments work properly")
+                    new Item("NestedFormFragment", "Nested Form Fragment Demo", "Nesting Form Fragments work properly"),                 
+           
+                    new Item("GridColumnSortMixinDemo", "GridColumnSort Mixin Demo", "GridColumnSort mixin works properly"),
+                    
+                    new Item("GridCurrentPageMixinDemo", "GridCurrentPage Mixin Demo", "GridCurrentPage mixin works properly")
 
+           
             );
 
     static
