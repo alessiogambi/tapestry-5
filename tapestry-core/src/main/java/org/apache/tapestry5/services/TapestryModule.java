@@ -631,6 +631,8 @@ public final class TapestryModule
         // be converted to clear out at the end of the request.
 
         configuration.addInstance("UnclaimedField", UnclaimedFieldWorker.class, "after:*");
+        
+        configuration.addInstance("KeepRequestParameters", KeepRequestParametersWorker.class);
     }
 
     /**

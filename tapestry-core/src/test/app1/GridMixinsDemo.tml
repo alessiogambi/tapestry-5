@@ -1,0 +1,14 @@
+<html t:type="Border" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+
+	<h1>Grid Mixins Demo</h1>
+
+	<p>
+		[
+		<t:actionlink t:id="reset">reset the Grid</t:actionlink>
+		]
+	</p>
+
+	<table t:id="grid" source="tracks" t:mixins="gridColumnSort, gridCurrentPage"
+		gridColumnSort.includeId="false" gridCurrentPage.includeId="false" />
+
+</html>
