@@ -156,7 +156,7 @@ public abstract class SeleniumTestCase extends Assert implements Selenium
 
         // Map<String, String> testParameters = xmlTest.getParameters();
 
-        String webAppFolder = getParameter(xmlTest, TapestryTestConstants.WEB_APP_FOLDER_PARAMETER, "src/main/webapp");
+        String webAppFolder = getParameter(xmlTest, TapestryTestConstants.WEB_APP_FOLDER_PARAMETER, "src/test/app1");
         String container = getParameter(xmlTest, TapestryTestConstants.SERVLET_CONTAINER_PARAMETER, JETTY_7);
         String contextPath = getParameter(xmlTest, TapestryTestConstants.CONTEXT_PATH_PARAMETER, "");
         int port = Integer.parseInt(getParameter(xmlTest, TapestryTestConstants.PORT_PARAMETER, "9090"));

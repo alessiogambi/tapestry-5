@@ -497,8 +497,12 @@ public class Index
 
                     new Item("FormFieldFocusDemo", "FormFieldFocus Demo", "Setting the Form focus on a specific field"),
 
-                    new Item("FormFragmentExplicitVisibleBoundsDemo", "Form Fragment Explicit Visible Bounds Demo", "Check for form fragment parent visibility can be bounded to")
-
+                    new Item("FormFragmentExplicitVisibleBoundsDemo", "Form Fragment Explicit Visible Bounds Demo", "Check for form fragment parent visibility can be bounded to"),
+               
+                    new Item("GridColumnSortMixinDemo", "GridColumnSort Mixin Demo", "GridColumnSort mixin works properly"),
+                    
+                    new Item("GridCurrentPageMixinDemo", "GridCurrentPage Mixin Demo", "GridCurrentPage mixin works properly")
+           
             );
 
     static
