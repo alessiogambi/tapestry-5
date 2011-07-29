@@ -17,29 +17,33 @@ package org.apache.tapestry5.integration.app1
 import org.apache.tapestry5.test.SeleniumTestCase
 import org.testng.annotations.Test
 
-class GridCurrentPageMixinTest extends SeleniumTestCase
+class GridColumnSortMixinTest extends SeleniumTestCase
 {
     @Test
-    void page_parameter_is_added_to_url() {
+    void sort_parameters_are_added_to_url() {
         
         openLinks "GridCurrentPage and GridColumnSort Mixin Demo"
-                
-        // goto grid1.page 2
-         clickAndWait "//div[@class='t-data-grid'][1]/div[@class='t-data-grid-pager']/a[@title=\"Go to page 2\"]"
+        
+        // in the beginning we are at page 1
+        
+        // click the Title header
+         clickAndWait "//div[@class='t-data-grid'][1]//a[.='Title']"
          
          // check parameter in URL
-         assertTrue getLocation().endsWith("?page=2")
-        
-        // goto grid1.page 1
-         clickAndWait "//div[@class='t-data-grid'][1]/div[@class='t-data-grid-pager']/a[@title=\"Go to page 1\"]"
-        
-         // check parameter in URL
-         assertTrue getLocation().endsWith("?page=1")
+         String urlParameters = getLocation().split("\\?")[1]
          
-        // reset grid1
+         assertTrue urlParameters.contains("sort=title")
+         assertTrue getLocation().contains("sortorder=asc")
+        
+        // click the Title header again
+         clickAndWait "//div[@class='t-data-grid'][1]//a[.='Title']"
+        
+         assertTrue urlParameters.contains("sort=title")
+         assertTrue getLocation().contains("sortorder=desc")
+         
+         // reset grid1
          clickAndWait "link=reset Grid1"
          
-         // the URL parameter should not be there anymore
          assertTrue getLocation().endsWith("gridcurrentpageandcolumnsortmixindemo")
     }
     
