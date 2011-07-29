@@ -499,10 +499,7 @@ public class Index
 
                     new Item("FormFragmentExplicitVisibleBoundsDemo", "Form Fragment Explicit Visible Bounds Demo", "Check for form fragment parent visibility can be bounded to"),
                
-                    new Item("GridColumnSortMixinDemo", "GridColumnSort Mixin Demo", "GridColumnSort mixin works properly"),
-                    
-                    new Item("GridCurrentPageMixinDemo", "GridCurrentPage Mixin Demo", "GridCurrentPage mixin works properly")
-           
+					new Item("GridCurrentPageAndColumnSortMixinDemo", "GridCurrentPage and GridColumnSort Mixin Demo", "GridCurrentPage and GridColumnSort mixins works properly")
             );
 
     static

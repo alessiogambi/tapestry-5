@@ -27,7 +27,7 @@ import java.util.List;
 
 @KeepRequestParameters(components =
 { "grid1.*" })
-public class GridCurrentPageMixinDemo
+public class GridCurrentPageAndColumnSortMixinDemo
 {
     @Inject
     private MusicLibrary library;
@@ -58,7 +58,7 @@ public class GridCurrentPageMixinDemo
 
     Link onActionFromGotoPage2()
     {
-        Link link = linkSource.createPageRenderLink(GridCurrentPageMixinDemo.class);
+        Link link = linkSource.createPageRenderLink(GridCurrentPageAndColumnSortMixinDemo.class);
 
         link.addParameter("page", "2");
 
@@ -67,7 +67,7 @@ public class GridCurrentPageMixinDemo
 
     Link onActionFromGotoGrid1Page2Grid2Page3()
     {
-        Link link = linkSource.createPageRenderLink(GridCurrentPageMixinDemo.class);
+        Link link = linkSource.createPageRenderLink(GridCurrentPageAndColumnSortMixinDemo.class);
 
         link.addParameter("page", "2");
 
