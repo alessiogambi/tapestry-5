@@ -15,13 +15,13 @@ import org.apache.tapestry5.corelib.ContextMenuClientEvent;
 import org.apache.tapestry5.corelib.ContextMenuGridLevel;
 import org.apache.tapestry5.corelib.ContextMenuHideType;
 import org.apache.tapestry5.corelib.components.Grid;
-import org.apache.tapestry5.internal.services.GridOutputContext;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.runtime.RenderCommand;
 import org.apache.tapestry5.runtime.RenderQueue;
 import org.apache.tapestry5.services.Environment;
+import org.apache.tapestry5.services.GridOutputContext;
 import org.apache.tapestry5.services.PropertyOutputContext;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 

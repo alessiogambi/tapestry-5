@@ -16,9 +16,9 @@ package org.apache.tapestry5.corelib.components;
 
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.corelib.base.AbstractPropertyOutput;
-import org.apache.tapestry5.internal.services.GridOutputContext;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
+import org.apache.tapestry5.services.GridOutputContext;
 import org.apache.tapestry5.services.PropertyOutputContext;
 
 /**

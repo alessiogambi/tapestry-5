@@ -1,4 +1,4 @@
-package org.apache.tapestry5.internal.services;
+package org.apache.tapestry5.services;
 
 import org.apache.tapestry5.services.PropertyOutputContext;
 
