@@ -1,14 +1,12 @@
 package org.apache.tapestry5.corelib.mixins;
 
 import org.apache.tapestry5.EventConstants;
-import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.runtime.RenderCommand;
 import org.apache.tapestry5.runtime.RenderQueue;
-import org.apache.tapestry5.services.PropertyOutputContext;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
