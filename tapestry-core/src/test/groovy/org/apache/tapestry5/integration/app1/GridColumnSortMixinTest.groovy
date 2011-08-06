@@ -48,34 +48,28 @@ class GridColumnSortMixinTest extends SeleniumTestCase
     }
     
     @Test
-    void provide_page_number_in_url_first_grid() {
+    void provide_sort_parameter_in_url_first_grid() {
         
         openLinks "GridCurrentPage and GridColumnSort Mixin Demo"
         
-        // goto page 2 using URL
-        clickAndWait "//a[@id='gotoPage2']"
-        
-        // grid1 should be on page 2
-        assertText "//div[@class='t-data-grid'][1]/div[@class='t-data-grid-pager']/span[@class=\"current\"]", "2"
+        // sort the album column using an action link that returns an link with url parameters
+        clickAndWait "//a[@id='sortGrid1OnAlbum']"
+
+        // check if the column is sorted asc
+        assertText "//div[@class='t-data-grid']//th[@class='album t-sort-column-ascending']/a", "Album"
     }
     
     @Test
-    void provide_page_number_in_url_both_grids() {
+    void provide_sort_parameter_in_url_both_grids() {
         
         openLinks "GridCurrentPage and GridColumnSort Mixin Demo"
         
-        // goto page 2 using URL
-        clickAndWait "//a[@id='gotoGrid1Page2Grid2Page3']"
+        // sort the album column on grid1 and the artist column on grid2
+        // using an action link that returns an link with url parameters
+        clickAndWait "//a[@id='sortGrid1OnAlbumSortGrid2OnArtist']"
         
-        // grid1 should be on page 2
-        assertText "//div[@class='t-data-grid'][1]/div[@class='t-data-grid-pager']/span[@class=\"current\"]", "2"
-        
-        // grid2 should be on page 3
-        assertText "//div[@class='t-data-grid'][2]/div[@class='t-data-grid-pager']/span[@class=\"current\"]", "3"
-        
-        // reset grid1
-        clickAndWait "link=reset Grid1"
-        
-        assertTrue getLocation().endsWith("gridcurrentpageandcolumnsortmixindemo")
+        // check if the columns are sorted asc
+        assertText "//div[@class='t-data-grid'][1]//th[@class='album t-sort-column-ascending']/a", "Album"
+        assertText "//div[@class='t-data-grid'][2]//th[@class='artist t-sort-column-ascending']/a", "Artist"
     }
 }
