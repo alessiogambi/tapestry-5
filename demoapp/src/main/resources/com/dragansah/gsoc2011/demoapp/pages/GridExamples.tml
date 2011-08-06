@@ -1,0 +1,184 @@
+<html t:type="layout" title="Grid Examples"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<p>
+		The context menu for the grid is done by pulling data from
+		<a class="monospace" href="${GridCellLink}">GridCell</a>
+		during rendering and making it available to the
+		<a href="${ContextMenuAjaxLink}" class="monospace">ContextMenuAjax</a>
+
+		by applying an advice on
+		<a class="monospace" href="${AbstractPropertyOutputLink}">
+			AbstractPropertyOutput.renderPropertyValue(MarkupWriter
+			writer,
+			String
+			overrideBlockId).</a>
+
+		and the
+		<a href="${contextMenuAjaxLink}" class="monospace">ContextMenuAjax</a>
+		mixin is done via the
+		<a href="${environmentLink}" class="monospace">Environment</a>
+		using the
+		<a href="${GridOutputContextLink}" class="monospace">GridOutputContext</a>
+		as an environmental object.
+		<br />
+	</p>
+
+	<p>
+		The
+		<a href="${ContextMenuAjaxLink}" class="monospace">ContextMenuAjax</a>
+		can be configured with a parameter to be used in 3 levels:
+		<ul>
+			<li>
+				<strong class="monospaced">CELL</strong>
+				- one menu per grid cell (td)
+			</li>
+			<li>
+				<strong class="monospaced">ROW</strong>
+				- one menu per grid row (tr)
+			</li>
+			<li>
+				<strong class="monospaced">GRID</strong>
+				- one menu for the entire grid
+			</li>
+		</ul>
+	</p>
+
+
+	<div style="float:left;margin-right: 20px;">
+		<t:delegate to="block:ajaxExamples" />
+	</div>
+	<div style="float:left;">
+		<t:delegate to="block:nonAjaxExamples" />
+	</div>
+
+	<t:block t:id="ajaxExamples">
+		<h3 style="text-decoration:underline">Ajax Examples:</h3>
+		<h3>Example 1: Grid with context menu on each cell (td)</h3>
+		<t:grid t:id="grid1" source="employees" row="employee" add="edit, delete"
+			t:mixins="contextmenuajax">
+
+			<p:lastNameCell>${employee.lastName}
+		</p:lastNameCell>
+			<p:editCell>edit</p:editCell>
+			<p:deleteCell>delete</p:deleteCell>
+
+			<p:contextmenu>
+				<div style="font-family: Ubuntu, Courier New">
+					<strong>Property name:</strong>
+					${propertyName}
+					<br />
+					<strong>Property value:</strong>
+					${propertyValue}
+					<br />
+					<strong>Object value:</strong>
+					${objectValue}
+				</div>
+			</p:contextmenu>
+
+		</t:grid>
+
+		<br />
+
+		<h3>Example 2: Grid with context menu on each row (tr)</h3>
+		<t:grid t:id="grid2" source="employees" row="employee" add="edit, delete"
+			t:mixins="contextmenuajax" menuLevel="ROW">
+
+			<p:lastNameCell>${employee.lastName}
+		</p:lastNameCell>
+			<p:editCell>edit</p:editCell>
+			<p:deleteCell>delete</p:deleteCell>
+
+			<p:contextmenu>
+				<div style="font-family: Ubuntu, Courier New">
+					<strong>Object value:</strong>
+					${objectValue}
+				</div>
+			</p:contextmenu>
+
+		</t:grid>
+
+		<br />
+
+		<h3>Example 3: Grid with context menu on the grid only</h3>
+		<t:grid t:id="grid3" source="employees" row="employee" add="edit, delete"
+			t:mixins="contextmenuajax" menuLevel="GRID">
+
+			<p:lastNameCell>${employee.lastName}
+		</p:lastNameCell>
+			<p:editCell>edit</p:editCell>
+			<p:deleteCell>delete</p:deleteCell>
+
+			<p:contextmenu>
+				<div style="font-family: Ubuntu, Courier New">
+					No context values available
+					here
+				</div>
+			</p:contextmenu>
+
+		</t:grid>
+
+		<br />
+	</t:block>
+
+	<t:block t:id="nonAjaxExamples">
+		<h3 style="text-decoration:underline">Non ajax examples:</h3>
+
+		<h3>Example 1: Grid with context menu on each cell (td)</h3>
+		<t:grid t:id="grid4" source="employees" row="employee" add="edit, delete"
+			t:mixins="contextmenu">
+
+			<p:lastNameCell>${employee.lastName}
+		</p:lastNameCell>
+			<p:editCell>edit</p:editCell>
+			<p:deleteCell>delete</p:deleteCell>
+
+			<p:contextmenu>
+				<strong>Property name:</strong>
+				${propertyName}
+				<br />
+				<strong>Property value:</strong>
+				${propertyValue}
+				<br />
+				<strong>Object value:</strong>
+				${objectValue}
+			</p:contextmenu>
+
+		</t:grid>
+
+		<br />
+
+		<h3>Example 2: Grid with context menu on each row (tr)</h3>
+		<t:grid t:id="grid5" source="employees" row="employee" add="edit, delete"
+			t:mixins="contextmenu" menuLevel="ROW">
+
+			<p:lastNameCell>${employee.lastName}
+		</p:lastNameCell>
+			<p:editCell>edit</p:editCell>
+			<p:deleteCell>delete</p:deleteCell>
+
+			<p:contextmenu>
+				<strong>Object value:</strong>
+				${objectValue}
+			</p:contextmenu>
+
+		</t:grid>
+
+		<br />
+
+		<h3>Example 3: Grid with context menu on the grid only</h3>
+		<t:grid t:id="grid6" source="employees" row="employee" add="edit, delete"
+			t:mixins="contextmenu" menuLevel="GRID">
+			<p:lastNameCell>${employee.lastName}</p:lastNameCell>
+			<p:editCell>edit</p:editCell>
+			<p:deleteCell>delete</p:deleteCell>
+
+			<p:contextmenu>
+				No context values available
+				here
+			</p:contextmenu>
+
+		</t:grid>
+	</t:block>
+
+</html>

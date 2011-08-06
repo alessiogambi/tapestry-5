@@ -1,0 +1,37 @@
+<html t:type="layout" title="Grid Enhancements"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<p>
+		Two grid enhancements are provided as mixins to the grid component:
+		<ul>
+			<li>
+				<strong>GridColumnSort:</strong>
+				Persists the sorting column in the URL.
+			</li>
+			<li>
+				<strong>GridColumnSort:</strong>
+				Persists the current grid page in the URL.
+			</li>
+		</ul>
+		The two mixins don't change any existing code.
+	</p>
+
+	<p>However an additional functionality is provided solving the
+		following problem: when one of the miixins is used in a page, clicking
+		an action (or page) link to the same page loses the URL parameter. To
+		solve tihs issue a utility annotation is provided
+		@KeepRequestParameters which when used on a page, decorates all
+		component event links and page render links in that page, adding all the parameters
+		in the request to links.</p>
+
+	<div style="float:left">
+		<t:grid t:id="g1" source="employees100" t:mixins="gridColumnSort, gridCurrentPage"
+			rowsPerPage="10" />
+	</div>
+
+	<div style="float:left; margin-left: 20px;">
+		<t:grid t:id="g2" source="employees100" t:mixins="gridColumnSort, gridCurrentPage"
+			rowsPerPage="5" />
+	</div>
+
+</html>

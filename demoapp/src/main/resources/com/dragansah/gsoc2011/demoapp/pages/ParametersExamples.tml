@@ -1,0 +1,47 @@
+<html t:type="layout" title="ClientEvent/HideType parameters"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<div style="float:left;margin-right: 20px;">
+		<t:delegate to="block:mouseDownExamples" />
+	</div>
+
+	<div style="float:left;">
+		<t:delegate to="block:mouseOutExamples" />
+	</div>
+
+	<t:block t:id="mouseDownExamples">
+		<h3 style="text-decoration:underline">HideType = MOUSEDOWN</h3>
+		<t:loop source="clientEvents" value="clientEvent">
+			<h3>ClientEvent = ${clientEvent}</h3>
+
+			<t:grid source="employees" row="employee" t:mixins="contextmenuajax"
+				t:contextmenu="contextmenu" t:clientEvent="prop:clientEvent" />
+		</t:loop>
+
+	</t:block>
+
+	<t:block t:id="mouseOutExamples">
+		<h3 style="text-decoration:underline">HideType = MOUSEOUT</h3>
+		<t:loop source="clientEvents" value="clientEvent">
+			<h3>ClientEvent = ${clientEvent}</h3>
+
+			<t:grid source="employees" row="employee" t:mixins="contextmenuajax"
+				t:contextmenu="contextmenu" t:hideType="MOUSEOUT" t:clientEvent="prop:clientEvent" />
+		</t:loop>
+
+	</t:block>
+
+	<t:block t:id="contextMenu">
+		<div style="font-family: Ubuntu, Courier New">
+			<strong>Property name:</strong>
+			${propertyName}
+			<br />
+			<strong>Property value:</strong>
+			${propertyValue}
+			<br />
+			<strong>Object value:</strong>
+			${objectValue}
+		</div>
+	</t:block>
+
+</html>

@@ -1,0 +1,116 @@
+<!-- Design by Free CSS Templates http://www.freecsstemplates.org Released 
+	for free under a Creative Commons Attribution 2.5 License Title : Concrete 
+	Version : 1.0 Released : 20080825 Description: A Web 2.0 design with fluid 
+	width suitable for blogs and small websites. -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>${title}</title>
+	</head>
+	<body>
+		<!-- start header -->
+		<div id="header">
+			<div id="menu">
+				<ul>
+					<li t:type="loop" source="pageNames" value="pageName"
+						class="prop:classForPageName">
+						<t:pagelink page="prop:pageName">${pageName}</t:pagelink>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- end header -->
+		<!-- start page -->
+		<div id="page">
+			<!-- start content -->
+			<div id="content">
+				<div class="post">
+					<div class="title">
+						<div style="height: 50px;">
+							<div style="float:left">
+								<h2>${title}</h2>
+							</div>
+							<div style="float:left; margin: 20px 20px 0 20px;">
+								link to the source:
+								<a href="${tmlLink}" style="margin-right:10px;">${tmlName}</a>
+								<a href="${javaClassLink}">${javaClassName}</a>
+								<br />
+							</div>
+							<div
+								style="right: 20px; top:60px; position:absolute; 
+								background-color:#fafafa; border:1px solid silver; padding:10px;">
+								Context Menu:
+								<br />
+								<a href="${ContextMenuJsLink}" style="margin-right:10px;">contextmenu.js</a>
+								<br />
+								<a href="${ContextMenuBaseLink}" style="margin-right:10px;">ContextMenuBase.java
+								</a>
+								<br />
+								<a href="${ContextMenuLink}" style="margin-right:10px;">ContextMenu.java</a>
+								<br />
+								<a href="${ContextMenuAjaxLink}" style="margin-right:10px;">ContextMenuAjax.java
+								</a>
+								<br />
+								<a href="${ContextMenuGridLevelLink}" style="margin-right:10px;">ContextMenuGridLevel.java
+								</a>
+								<br />
+								<a href="${ContextMenuClientEventLink}" style="margin-right:10px;">ContextMenuClientEvent.java
+								</a>
+								<br />
+								<a href="${ContextMenuHideTypeLink}" style="margin-right:10px;">ContextMenuHideType.java
+								</a>
+								<br />
+								<br />
+								Dropdown Menu:
+								<br />
+								<a href="${DropdownMenuLink}" style="margin-right:10px;">
+									DropdownMenu.java
+								</a>
+								<br />
+								<a href="${MenuItemLink}" style="margin-right:10px;">
+									MenuItem.java
+								</a>
+								<br />
+								<br />
+								Bookmarkable Sorting/Pagination:
+								<br />
+								<a href="${GridColumnSortLink}" style="margin-right:10px;">
+									GridColumnSort.java
+								</a>
+								<br />
+								<a href="${GridCurrentPageLink}" style="margin-right:10px;">
+									GridCurrentPage.java
+								</a>
+								<br />
+								<br />
+								Keep parameters in request:
+								<br />
+								<a href="${KeepRequestParametersLink}" style="margin-right:10px;">
+									KeepRequestParameters.java
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="entry">
+						<t:body />
+					</div>
+				</div>
+			</div>
+			<!-- end content -->
+			<br style="clear: both;" />
+		</div>
+		<!-- end page -->
+		<!-- start footer -->
+		<div id="footer">
+			<p class="legal">
+				Design by
+				<a href="http://www.freecsstemplates.org/">Free CSS Templates</a>
+				Icons by
+				<a href="http://famfamfam.com/">FAMFAMFAM</a>
+				.
+			</p>
+		</div>
+		<!-- end footer -->
+	</body>
+</html>

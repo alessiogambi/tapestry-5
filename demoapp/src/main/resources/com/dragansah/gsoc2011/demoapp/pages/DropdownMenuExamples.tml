@@ -1,0 +1,47 @@
+<html t:type="layout" title="Dropdown Menu Examples"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+
+	<p>Right Click the Grid to see some row specific options.</p>
+
+	<t:grid t:id="grid1" source="employees" row="employee" add="edit, delete"
+		t:mixins="contextmenuajax, gridColumnSort, gridCurrentPage">
+
+		<p:lastNameCell>${employee.lastName} 
+		</p:lastNameCell>
+		<p:editCell>edit</p:editCell>
+		<p:deleteCell>delete</p:deleteCell>
+
+		<p:contextmenu>
+		<!-- 
+			<t:dropdownmenu>
+				<t:menuitem separator="true">
+					<p:label>
+						<strong>${objectValue.name}</strong>
+					</p:label>
+				</t:menuitem>
+
+				<t:menuitem icon="context:icons/view.jpg" label="View" />
+				<t:menuitem icon="context:icons/edit.jpg" label="Edit" />
+				<t:menuitem icon="context:icons/delete.jpg" label="Delete"
+					separator="true" />
+
+				<t:menuitem label="Sort by:" separator="true">
+					<t:loop source="sortcolumns" value="sortcolumn">
+						<t:menuitem label="prop:sortcolumn" link="sortColumnLink" />
+					</t:loop>
+					<t:menuitem label="reset sort" link="resetSortLink"
+						separatortop="true" />
+				</t:menuitem>
+
+				<t:menuitem label="Order columns:">
+					<t:menuitem label="Not implemented" />
+					<t:menuitem label="Stay tuned :)" />
+				</t:menuitem>
+
+			</t:dropdownmenu> -->
+		</p:contextmenu>
+
+	</t:grid>
+
+</html>

@@ -1,0 +1,48 @@
+<html t:type="layout" title="Ajax Examples"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<p>
+		Several ajax context menus in one page, demonstrating that the
+		context
+		menu component keeps state (per context menu component in a
+		map) for
+		which zones to update, if the zone is updated etc.
+
+		<br />
+		<p>
+			The
+			<strong>map</strong>
+			has the following structure:
+			<ul class="monospace">
+				<li>The map is indexed by the id of the parent element</li>
+				<li>map[parentId]['contextMenuId'] = the id of the context menu</li>
+				<li>map[parentId]['spec'] = spec for new Tapestry.ZoneManager(spec)</li>
+				<li>map[parentId]['isZoneUpdated'] = if the context menu content was
+					fetched from the server</li>
+			</ul>
+		</p>
+
+	</p>
+
+	<p>
+		<t:any t:mixins="contextmenuajax" contextmenu="block:contextmenu1">
+			<span>Ajax example 1: Click Me (delay 1 sec)</span>
+		</t:any>
+	</p>
+
+	<t:block t:id="contextMenu1">
+		${test1}
+	</t:block>
+
+	<p>
+		<t:any t:mixins="contextmenuajax">
+			<span>Ajax example 2: Click Me (delay 1 sec)</span>
+			<p:contextmenu>
+				${test2}
+			</p:contextmenu>
+		</t:any>
+	</p>
+
+
+
+</html>

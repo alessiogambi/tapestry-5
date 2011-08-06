@@ -1,0 +1,80 @@
+<html t:type="layout" title="Project Description and Todo List"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<table>
+		<tr>
+			<td
+				style="text-valign:top; padding: 0px 20px; vertical-align: text-top; width:50%;">
+				<t:delegate to="block:left" />
+			</td>
+			<td style="text-valign:top; padding: 0px 20px; vertical-align: text-top;">
+				<t:delegate to="block:right" />
+			</td>
+		</tr>
+	</table>
+
+	<t:block t:id="left">
+		<h3>Proposal Title: Right Click Menu, grid enhancements and two
+			optional components for the Apache Tapestry5 java web application
+			framework.</h3>
+		<br />
+		<div>Student Name: Dragan Shahpaski</div>
+
+		<div>Student E-mail:
+			dragan.sahpaskix@gmail.com</div>
+
+		<div>Organization/Project: The Apache Software
+			Foundation / Tapestry 5</div>
+
+		<div>Assigned Mentor: Kalle Korhonen (gsoc id:
+			kaosko)</div>
+
+		<p>
+			<h3>Proposal Abstract:</h3>
+			This project consistst of two parts.
+		</p>
+		<p> The first part will produce a generic and powerfull Right Click
+			Menu (also known as Context Menu) component for Tapestry5. The Right
+			Click Menu component is meant to be highly configurable ready for
+			enterprise scenarios, can be used along tapestry5 existing components
+			or as standalone component. The component is meant to be integrated
+			within the tapestry5 framework or as a standalone library. As far as
+			I know no such component is provided publicly yet. 
+		</p>
+		<p> The second part will provide enhancements for the existing
+			powerful t5 grid component and two optional tasks from which one
+			should be chosen. The grid enhancements include bookmarkable URLs
+			with sort parameters of the grid, page number and number of items per
+			page. 
+		</p>
+		<p> The chosen optional task can be prototype (not production ready)
+			but should provide at least a motivating working example of most
+			common usage. 
+		</p>
+
+	</t:block>
+
+	<t:block t:id="right">
+		<div>
+			The project schedule is compiled from the proposal document from the
+			GSOC 2011
+			melange site
+			<a
+				href="http://www.google-melange.com/gsoc/proposal/review/google/gsoc2011/dragansah/1">here</a>
+		</div>
+		<t:loop source="titles" value="title">
+			<h3 style="margin: 20px 0px 10px 0px;">${title}</h3>
+			<t:grid source="todoItems" add="no" reorder="no" row="todoItem">
+				<p:noHeader></p:noHeader>
+				<p:noCell>${index}</p:noCell>
+				<p:nameCell>
+					<div style="width: 300px;">${todoItem.name}</div>
+				</p:nameCell>
+				<p:statusCell>
+					<span style="color: ${todoItem.statusColor}">${todoItem.statuslabel}</span>
+				</p:statusCell>
+			</t:grid>
+		</t:loop>
+	</t:block>
+
+</html>

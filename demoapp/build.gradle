@@ -1,0 +1,16 @@
+description = "A demo application for my work for the Google Summer of Code 2011 program"
+
+apply plugin: 'jetty'
+jettyRun.httpPort = 8080
+jettyRun.contextPath = 'demoapp'
+
+dependencies {
+  compile project(':tapestry-core')
+}
+
+jar {
+    manifest {
+        attributes 'Tapestry-Module-Classes': 'com.dragansah.gsoc2011.demoapp.services.DemoAppModule'
+    }
+}
+
