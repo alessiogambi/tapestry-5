@@ -91,6 +91,7 @@ public class AppModule
         configuration.add(BaseURLSource.class, source);
     }
 
+    
     @Marker(Local.class)
     public RequestFilter buildTimingFilter(final Logger log)
     {
@@ -118,7 +119,7 @@ public class AppModule
                                          @Local
                                          RequestFilter filter)
     {
-        configuration.add("Timing", filter);
+        // configuration.add("Timing", filter);
     }
 
     public UserAuthenticator buildUserAuthenticator()

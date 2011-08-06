@@ -1,3 +1,17 @@
+// Copyright 2011 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package org.apache.tapestry5.corelib.mixins;
 
 import org.apache.tapestry5.BindingConstants;
@@ -7,6 +21,7 @@ import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.Renderable;
+import org.apache.tapestry5.annotations.EmbeddedMixin;
 import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.components.ProgressiveDisplay;
@@ -21,6 +36,7 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 public class ContextMenuAjax extends ContextMenuBase
 {
+    
     /**
      * The initial content to display until the actual content arrives. Defaults to "Loading ..." and an Ajax activity
      * icon, controlled by the css class t-loading which is also used in {@link ProgressiveDisplay}.
@@ -49,7 +65,7 @@ public class ContextMenuAjax extends ContextMenuBase
             public void render(MarkupWriter writer)
             {
                 // The div containing the actual contextmenu
-                writer.element("div").addClassName("t-contextmenu t-loading");
+                writer.element("div").addClassName("t-loading");
                 writer.write(resources.getMessages().get("context-menu-loading"));
                 writer.end();
             }

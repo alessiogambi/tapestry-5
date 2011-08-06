@@ -190,4 +190,22 @@ public interface ComponentModel
      * @since 5.2.0
      */
     String[] getOrderForMixin(String mixinClassName);
+    
+    /**
+     * Relevant for mixins only. Returns a list of the class names of embedded mixins defined 
+     * in this mixin.
+     * 
+     * @since 5.3
+     */
+    List<String> getEmbeddedMixinClassNames();
+    
+    /**
+     * Relevant for mixins only. Returns a list of the embedded component ids for the embedded mixins defined 
+     * in this mixin.
+     * @param mixinClassName class name of the mixin for which the componentId is desired
+     * @return the componentId for the mixin.
+     * 
+     * @since 5.3
+     */
+    String getComponentIdForEmbeddedMixin(String mixinClassName);
 }

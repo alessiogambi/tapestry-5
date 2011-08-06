@@ -44,7 +44,9 @@ import org.apache.tapestry5.services.InvalidationListener;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.pageload.ComponentResourceSelector;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -850,6 +852,8 @@ public class PageLoaderImpl implements PageLoader, InvalidationListener, Compone
         embedded.bindParameter(parameterName, containerBinding);
     }
 
+    private Map<String, Map<String, List<String>>> componentIdToMixinsToEmbeddedMixins = CollectionFactory.newConcurrentMap();
+    
     private void addActionForEmbeddedComponent(AssemblerContext context,
                                                final EmbeddedComponentAssembler embeddedAssembler, final String embeddedId, final String elementName,
                                                final String componentClassName) {
@@ -858,24 +862,30 @@ public class PageLoaderImpl implements PageLoader, InvalidationListener, Compone
                 pageAssembly.checkForRecursion(componentClassName, embeddedAssembler.getLocation());
 
                 ComponentResourceSelector selector = pageAssembly.page.getSelector();
-
+                
                 ComponentAssembler assemblerForSubcomponent = getAssembler(componentClassName, selector);
 
                 // Remember: this pushes onto to the createdElement stack, but does not pop it.
-
+              
                 assemblerForSubcomponent.assembleEmbeddedComponent(pageAssembly, embeddedAssembler, embeddedId,
                         elementName, embeddedAssembler.getLocation());
 
                 // ... which is why we can find it via peek() here. And it's our responsibility
                 // to clean it up.
 
-                ComponentPageElement embeddedElement = pageAssembly.createdElement.peek();
-
+                final ComponentPageElement embeddedElement = pageAssembly.createdElement.peek();
                 // Add the new element to the template of its container.
 
                 pageAssembly.addRenderCommand(embeddedElement);
+                pageAssembly.deferred.add(new PageAssemblyAction()
+                {
+                    public void execute(PageAssembly pageAssembly)
+                    {
+                        addEmbeddedMixins(embeddedElement, (EmbeddedComponentAssemblerImpl) embeddedAssembler);
+                    }
+                });
 
-                // And redirect any futher content from this component's template to go into
+                // And redirect any further content from this component's template to go into
                 // the body of the embedded element.
 
                 pageAssembly.bodyElement.push(embeddedElement);
@@ -887,6 +897,44 @@ public class PageLoaderImpl implements PageLoader, InvalidationListener, Compone
         });
     }
 
+    private void addEmbeddedMixins(ComponentPageElement newElement, EmbeddedComponentAssemblerImpl embeddedAssembler)
+    {        
+        for (String mixinClass : embeddedAssembler.getMixinClassNames())
+        {
+            ComponentModel mixinModel = instantiatorSource.getInstantiator(mixinClass).getModel();
+            for (String embeddedMixin : mixinModel.getEmbeddedMixinClassNames())
+            {
+                if(!componentIdToMixinsToEmbeddedMixins.containsKey(newElement.getCompleteId()))
+                    componentIdToMixinsToEmbeddedMixins.put(newElement.getCompleteId(), new HashMap<String, List<String>>());
+                if(!componentIdToMixinsToEmbeddedMixins.get(newElement.getCompleteId()).containsKey(mixinClass))
+                    componentIdToMixinsToEmbeddedMixins.get(newElement.getCompleteId()).put(mixinClass, new ArrayList<String>());
+                
+                componentIdToMixinsToEmbeddedMixins.get(newElement.getCompleteId()).get(mixinClass).add(embeddedMixin);
+            }
+        }
+
+        ComponentPageElement container = newElement.getContainerElement();
+        String newElementId = newElement.getId();
+        while (container != null)
+        {
+            if (componentIdToMixinsToEmbeddedMixins.containsKey(container.getCompleteId()))
+            {
+                for(String mixinClass : componentIdToMixinsToEmbeddedMixins.get(container.getCompleteId()).keySet())
+                    for (String embeddedMixinClass : componentIdToMixinsToEmbeddedMixins.get(container.getCompleteId()).get(mixinClass))
+                    {
+                        Instantiator mixinsInstantiator = instantiatorSource.getInstantiator(embeddedMixinClass);
+                        ComponentModel mixinModel = instantiatorSource.getInstantiator(mixinClass).getModel();
+                        String componentId = mixinModel.getComponentIdForEmbeddedMixin(embeddedMixinClass);
+                        if (componentId.equalsIgnoreCase(newElementId))
+                            newElement.addMixin(embeddedMixinClass, mixinsInstantiator);
+                    }
+            }
+            newElementId = container.getId() + "." + newElementId;
+            container = container.getContainerElement();
+        }
+    }
+    
+    
     private void attribute(AssemblerContext context) {
         final AttributeToken token = context.next(AttributeToken.class);
 
