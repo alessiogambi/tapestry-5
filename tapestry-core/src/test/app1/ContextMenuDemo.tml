@@ -3,7 +3,7 @@
 
 	<h1>ContextMenu Demo</h1>
 
-	<t:any t:id="element1" id="element1" t:mixins="contextmenu">
+	<t:any t:id="element1" id="element1" t:mixins="contextmenu" clientEvent="mousedown">
 		Context Menu Element
 		<p:contextmenu>
 			Context Menu
@@ -11,7 +11,7 @@
 	</t:any>
 
 	<t:loop source="loopSource" value="loopValue">
-		<t:any t:id="loop" t:mixins="contextmenu" t:context="loopValue">
+		<t:any t:id="loop" t:mixins="contextmenu" t:context="loopValue" clientEvent="mousedown">
 			Loop Element ${loopContext}
 			<p:contextmenu>
 				Loop Context Menu ${loopContext}
@@ -19,7 +19,7 @@
 		</t:any>
 	</t:loop>
 
-	<t:grid t:id="grid" t:mixins="contextMenu" source="tracks" rowsPerPage="5">
+	<t:grid t:id="grid" t:mixins="contextMenu" source="tracks" rowsPerPage="5" clientEvent="mousedown">
 		<p:contextmenu>
 			object:${track?.title}
 			<br />
@@ -29,7 +29,7 @@
 		</p:contextmenu>
 	</t:grid>
 	
-	<t:grid t:id="gridAjax" t:mixins="contextMenuAjax" source="tracks" rowsPerPage="5">
+	<t:grid t:id="gridAjax" t:mixins="contextMenuAjax" source="tracks" rowsPerPage="5" clientEvent="mousedown">
 		<p:contextmenu>
 			object:${track?.title}
 			<br />
