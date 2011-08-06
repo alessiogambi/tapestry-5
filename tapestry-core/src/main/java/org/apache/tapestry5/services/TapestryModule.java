@@ -625,14 +625,14 @@ public final class TapestryModule
         configuration.addInstance("Log", LogWorker.class);
 
         configuration.addInstance("HeartbeatDeferred", HeartbeatDeferredWorker.class, "after:RenderPhase");
+        
+        configuration.addInstance("KeepRequestParameters", KeepRequestParametersWorker.class);
 
         // This one is always last. Any additional private fields that aren't
         // annotated will
         // be converted to clear out at the end of the request.
 
         configuration.addInstance("UnclaimedField", UnclaimedFieldWorker.class, "after:*");
-        
-        configuration.addInstance("KeepRequestParameters", KeepRequestParametersWorker.class);
     }
 
     /**
