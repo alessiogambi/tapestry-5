@@ -16,7 +16,6 @@ package org.apache.tapestry5.integration.app1.pages;
 
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.KeepRequestParameters;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.integration.app1.data.Track;
 import org.apache.tapestry5.integration.app1.services.MusicLibrary;
@@ -25,8 +24,6 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
 
 import java.util.List;
 
-@KeepRequestParameters(components =
-{ "grid1.*" })
 public class GridCurrentPageAndColumnSortMixinDemo
 {
     @Inject
@@ -70,8 +67,30 @@ public class GridCurrentPageAndColumnSortMixinDemo
         Link link = linkSource.createPageRenderLink(GridCurrentPageAndColumnSortMixinDemo.class);
 
         link.addParameter("page", "2");
-
         link.addParameter("grid2.page", "3");
+
+        return link;
+    }
+    
+    Link onActionFromSortGrid1OnAlbum()
+    {
+        Link link = linkSource.createPageRenderLink(GridCurrentPageAndColumnSortMixinDemo.class);
+
+        link.addParameter("sort", "album");
+        link.addParameter("sortorder", "asc");
+
+        return link;
+    }
+    
+    Link onActionFromSortGrid1OnAlbumSortGrid2OnArtist()
+    {
+        Link link = linkSource.createPageRenderLink(GridCurrentPageAndColumnSortMixinDemo.class);
+
+        link.addParameter("sort", "album");
+        link.addParameter("sortorder", "asc");
+        
+        link.addParameter("grid2.sort", "artist");
+        link.addParameter("grid2.sortorder", "asc");
 
         return link;
     }

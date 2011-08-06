@@ -10,13 +10,25 @@
 	
 	<p>
 		[
-		<t:actionlink t:id="gotoPage2" id="gotoPage2">Goto Page 2  (using link and adding a parameter to id)</t:actionlink>
+		<t:actionlink t:id="gotoPage2" id="gotoPage2">Goto Page 2 (using link and adding a parameter to the url)</t:actionlink>
 		]
 	</p>
 
 	<p>
 		[
 		<t:actionlink t:id="gotoGrid1Page2Grid2Page3" id="gotoGrid1Page2Grid2Page3">Goto Grid1 page 2 and Grid2 page 3</t:actionlink>
+		]
+	</p>
+	
+	<p>
+		[
+		<t:actionlink t:id="sortGrid1OnAlbum" id="sortGrid1OnAlbum">Sort Grid 1 on Album column (using link and adding a parameter to the url)</t:actionlink>
+		]
+	</p>
+	
+	<p>
+		[
+		<t:actionlink t:id="sortGrid1OnAlbumSortGrid2OnArtist" id="sortGrid1OnAlbumSortGrid2OnArtist">Sort Grid 1 on Album column and Grid 2 on Artist column (using link and adding a parameter to the url)</t:actionlink>
 		]
 	</p>
 	
