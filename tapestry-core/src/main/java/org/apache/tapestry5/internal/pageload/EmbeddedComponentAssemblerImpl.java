@@ -29,6 +29,7 @@ import org.apache.tapestry5.services.ComponentClassResolver;
 import org.apache.tapestry5.services.pageload.ComponentResourceSelector;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
     private final ComponentModel componentModel;
 
     private final Location location;
-
+    
     private final Map<String, Instantiator> mixinIdToInstantiator = CollectionFactory.newCaseInsensitiveMap();
     private final Map<String, String[]> mixinsIdToOrderConstraints = CollectionFactory.newCaseInsensitiveMap();
 
@@ -59,6 +60,8 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
 
     private Map<String, Boolean> bound;
 
+    private List<String> mixinClassNames;
+    
     /**
      * @param assemblerSource
      * @param instantiatorSource
@@ -88,11 +91,15 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
 
         componentModel = getModel(componentClassName);
 
-        // Add the implementation mixins defined by the component model.
+        mixinClassNames = CollectionFactory.newList();
 
+        // Add the implementation mixins defined by the component model.
+        
         for (String className : componentModel.getMixinClassNames())
         {
             addMixin(className, componentModel.getOrderForMixin(className));
+            
+            mixinClassNames.add(className);
         }
 
         // If there's an embedded model (i.e., there was an @Component annotation)
@@ -103,6 +110,8 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
             for (String className : embeddedModel.getMixinClassNames())
             {
                 addMixin(className, embeddedModel.getConstraintsForMixin(className));
+                
+                mixinClassNames.add(className);
             }
         }
 
@@ -114,8 +123,10 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
             String className = componentClassResolver.resolveMixinTypeToClassName(order.getId());
 
             addMixin(className, order.getConstraints());
-        }
-
+            
+            mixinClassNames.add(className);
+        }        
+        
         informalParametersMixinId = prescanMixins();
 
     }
@@ -133,8 +144,7 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
 
             updateParameterNameToQualified(mixinId, mixinModel);
 
-            if (supportsInformals == null && mixinModel.getSupportsInformalParameters())
-                supportsInformals = mixinId;
+            if (supportsInformals == null && mixinModel.getSupportsInformalParameters()) supportsInformals = mixinId;
         }
 
         // The component comes last and overwrites simple names from the others.
@@ -154,8 +164,7 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
 
             parameterNameToBinder.put(parameterName, binder);
 
-            if (mixinId != null)
-                parameterNameToBinder.put(mixinId + "." + parameterName, binder);
+            if (mixinId != null) parameterNameToBinder.put(mixinId + "." + parameterName, binder);
         }
     }
 
@@ -188,39 +197,34 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
         if (dotx >= 0)
         {
             String mixinId = parameterName.substring(0, dotx);
-            if (!mixinIdToInstantiator.containsKey(mixinId))
-            {
-                throw new TapestryException(
-                        PageloadMessages.mixinidForParamnotfound(parameterName, mixinIdToInstantiator.keySet()), location,
-                        null);
-            }
-        } else
+            if (!mixinIdToInstantiator.containsKey(mixinId)) { throw new TapestryException(
+                    PageloadMessages.mixinidForParamnotfound(parameterName, mixinIdToInstantiator.keySet()), location,
+                    null); }
+        }
+        else
         {
             // Unqualified parameter name. May be a reference not to a parameter of this component, but a published
             // parameter of a component embedded in this component. The ComponentAssembler for this component
             // will know.
 
-            ComponentAssembler assembler = assemblerSource.getAssembler(componentModel.getComponentClassName(),
-                    selector);
+            ComponentAssembler assembler = assemblerSource.getAssembler(
+                    componentModel.getComponentClassName(), selector);
 
             ParameterBinder binder = assembler.getBinder(parameterName);
 
-            if (binder != null)
-                return binder;
+            if (binder != null) return binder;
         }
 
         final ParameterBinder binder = parameterNameToBinder.get(parameterName);
 
-        if (binder != null)
-            return binder;
+        if (binder != null) return binder;
 
         // Informal parameter: Is there a mixin for that?
 
         if (informalParametersMixinId != null)
             return new ParameterBinderImpl(informalParametersMixinId, parameterName, null);
 
-        if (componentModel.getSupportsInformalParameters())
-            return new ParameterBinderImpl(null, parameterName, null);
+        if (componentModel.getSupportsInformalParameters()) return new ParameterBinderImpl(null, parameterName, null);
 
         // Otherwise, informal parameter and not supported by the component or any mixin.
 
@@ -234,8 +238,7 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
 
     public void setBound(String parameterName)
     {
-        if (bound == null)
-            bound = CollectionFactory.newCaseInsensitiveMap();
+        if (bound == null) bound = CollectionFactory.newCaseInsensitiveMap();
 
         bound.put(parameterName, true);
     }
@@ -259,5 +262,10 @@ public class EmbeddedComponentAssemblerImpl implements EmbeddedComponentAssemble
     public Set<String> getFormalParameterNames()
     {
         return new HashSet<String>(componentModel.getParameterNames());
+    }
+
+    public List<String> getMixinClassNames()
+    {
+        return mixinClassNames;
     }
 }
