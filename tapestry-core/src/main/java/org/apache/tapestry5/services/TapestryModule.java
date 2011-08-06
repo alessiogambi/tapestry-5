@@ -626,6 +626,8 @@ public final class TapestryModule
         configuration.addInstance("Log", LogWorker.class);
 
         configuration.addInstance("HeartbeatDeferred", HeartbeatDeferredWorker.class, "after:RenderPhase");
+        
+        configuration.addInstance("KeepRequestParameters", KeepRequestParametersWorker.class);
 
         // This one is always last. Any additional private fields that aren't
         // annotated will
@@ -2330,6 +2332,8 @@ public final class TapestryModule
 
         configuration.add("tapestry.datepicker.path", "org/apache/tapestry5/datepicker_106");
         configuration.add(SymbolConstants.DATEPICKER, "classpath:${tapestry.datepicker.path}");
+
+        configuration.add("tapestry.underscore", "classpath:org/apache/tapestry5/underscore_1_1_7.js");
 
         configuration.add(SymbolConstants.BLACKBIRD, "");
 
