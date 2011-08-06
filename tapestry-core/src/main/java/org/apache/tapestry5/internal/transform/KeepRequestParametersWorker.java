@@ -1,4 +1,4 @@
-// Copyright 2010, 2011 The Apache Software Foundation
+// Copyright 2011 The Apache Software Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,11 +35,13 @@ import org.apache.tapestry5.services.transform.ComponentClassTransformWorker2;
 import org.apache.tapestry5.services.transform.TransformationSupport;
 
 /**
- * Hooks the activate event handler on the component (presumably, a page) to extract query parameters, and hooks the
- * link decoration events to extract values and add them to the {@link Link}.
+ * Decorates page render links and/or component event links adding all the parameters in the request to the link, for
+ * pages annotated with {@link KeepRequestParameters}.
  * 
- * @see ActivationRequestParameter
- * @since 5.2.0
+ * @see KeepRequestParameters
+ * @see EventConstants#DECORATE_PAGE_RENDER_LINK
+ * @see EventConstants#DECORATE_COMPONENT_EVENT_LINK
+ * @since 5.3
  */
 @SuppressWarnings("all")
 public class KeepRequestParametersWorker implements ComponentClassTransformWorker2
@@ -71,11 +73,19 @@ public class KeepRequestParametersWorker implements ComponentClassTransformWorke
                 ComponentEventRequestParameters parameters = event.getEventContext().get(
                         ComponentEventRequestParameters.class, 1);
 
-                for (String component : annotation.components())
+                if (annotation.components().length == 0)
                 {
-                    if (parameters.getNestedComponentId().matches(component))
-                        for (String parameterName : request.getParameterNames())
-                            link.addParameter(parameterName, request.getParameter(parameterName));
+                    for (String parameterName : request.getParameterNames())
+                        link.addParameter(parameterName, request.getParameter(parameterName));
+                }
+                else
+                {
+                    for (String component : annotation.components())
+                    {
+                        if (parameters.getNestedComponentId().matches(component))
+                            for (String parameterName : request.getParameterNames())
+                                link.addParameter(parameterName, request.getParameter(parameterName));
+                    }
                 }
             }
         };
@@ -90,13 +100,15 @@ public class KeepRequestParametersWorker implements ComponentClassTransformWorke
             }
         };
 
-        support.addEventHandler(
-                EventConstants.DECORATE_COMPONENT_EVENT_LINK, 0,
-                String.format("KeepRequestParametersWorker decorate component event link event handler"), handler);
+        if (annotation.componentEventLinks())
+            support.addEventHandler(
+                    EventConstants.DECORATE_COMPONENT_EVENT_LINK, 0,
+                    String.format("KeepRequestParametersWorker decorate component event link event handler"), handler);
 
-        support.addEventHandler(
-                EventConstants.DECORATE_PAGE_RENDER_LINK, 0,
-                String.format("KeepRequestParametersWorker decorate page render link event handler"), pageHandler);
+        if (annotation.pageRenderLinks())
+            support.addEventHandler(
+                    EventConstants.DECORATE_PAGE_RENDER_LINK, 0,
+                    String.format("KeepRequestParametersWorker decorate page render link event handler"), pageHandler);
     }
 
 }
