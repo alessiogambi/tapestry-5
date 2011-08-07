@@ -30,20 +30,17 @@ import org.apache.tapestry5.corelib.ContextMenuClientEvent;
 import org.apache.tapestry5.corelib.ContextMenuGridLevel;
 import org.apache.tapestry5.corelib.ContextMenuHideType;
 import org.apache.tapestry5.corelib.components.Grid;
+import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell.GridCellOutputContext;
 import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell.GridOutputContext;
-import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.runtime.RenderCommand;
 import org.apache.tapestry5.runtime.RenderQueue;
 import org.apache.tapestry5.services.Environment;
-import org.apache.tapestry5.services.PropertyOutputContext;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.NotImplementedException;
 
 /**
  * Base class for {@link ContextMenu} and {@link ContextMenuAjax}. Handles all the rendering scenarios given by
@@ -151,7 +148,7 @@ public abstract class ContextMenuBase
             int i = 0;
             for (Object row : gridOutputContext.rows())
             {
-                for (PropertyOutputContext gridCellContext : gridOutputContext.properties(row))
+                for (GridCellOutputContext gridCellContext : gridOutputContext.properties(row))
                 {
                     final String contextMenuId = javaScriptSupport.allocateClientId(resources);
 
@@ -224,77 +221,7 @@ public abstract class ContextMenuBase
 
         return null;
     }
-
-    static class GridCellOutputContext implements PropertyOutputContext
-    {
-        private Object objectValue;
-
-        private Object propertyValue;
-
-        private String propertyId;
-
-        private String propertyName;
-
-        public GridCellOutputContext(Object objectValue, String propertyId, String propertyName, Object propertyValue)
-        {
-            this.objectValue = objectValue;
-            this.propertyId = propertyId;
-            this.propertyName = propertyName;
-            this.propertyValue = propertyValue;
-        }
-
-        public Object getObjectValue()
-        {
-            return objectValue;
-        }
-
-        public Object getPropertyValue()
-        {
-            return propertyValue;
-        }
-
-        public Messages getMessages()
-        {
-            throw new NotImplementedException("This method is not implemented at this time");
-        }
-
-        public String getPropertyId()
-        {
-            return propertyId;
-        }
-
-        public String getPropertyName()
-        {
-            return propertyName;
-        }
-    }
-
-    static class GridRowOutputContext extends GridCellOutputContext
-    {
-        public GridRowOutputContext(Object objectValue)
-        {
-            super(objectValue, null, null, null);
-        }
-
-        @Override
-        public Object getPropertyValue()
-        {
-            throw new NotImplementedException("This method is not implemented at this time");
-        }
-
-        @Override
-        public String getPropertyId()
-        {
-            throw new NotImplementedException("This method is not implemented at this time");
-        }
-
-        @Override
-        public String getPropertyName()
-        {
-            throw new NotImplementedException("This method is not implemented at this time");
-        }
-    }
-
+   
     /**
      * Triggers a {@link EventConstants.CONTEXTMENU} event
      * 
@@ -358,7 +285,7 @@ public abstract class ContextMenuBase
     }
 
     protected RenderCommand renderMenuForGridCell(String elementId, String contextMenuId, Integer gridCellIndex,
-            Object[] context, PropertyOutputContext cellContext)
+            Object[] context, GridCellOutputContext cellContext)
     {
         return renderMenu(
                 getSpec(elementId, contextMenuId, null, gridCellIndex),
