@@ -80,8 +80,10 @@ public class MenuItem
 
                 if (link != null) queue.push(end(queue)); // </a>
 
+                queue.push(end(queue)); // </span>
                 queue.push((RenderCommand) labelBlock);
-
+                queue.push(element("span", queue));  // <span>
+                
                 queue.push(new RenderCommand()
                 {
                     public void render(MarkupWriter writer, RenderQueue queue)
