@@ -5,7 +5,8 @@
 	<p>Right Click the Grid to see some row specific options.</p>
 
 	<t:grid t:id="grid1" source="employees" row="employee" add="edit, delete"
-		t:mixins="contextmenuajax, gridColumnSort, gridCurrentPage">
+		t:mixins="contextmenuajax, gridColumnSort, gridCurrentPage"
+		gridColumnSort.includeId="false">
 
 		<p:lastNameCell>${employee.lastName} 
 		</p:lastNameCell>

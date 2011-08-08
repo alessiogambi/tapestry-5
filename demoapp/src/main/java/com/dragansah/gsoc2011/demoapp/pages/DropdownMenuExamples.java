@@ -7,6 +7,7 @@ import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Grid;
+import org.apache.tapestry5.grid.ColumnSort;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 
@@ -84,19 +85,20 @@ public class DropdownMenuExamples
     @Inject
     private ComponentResources resources;
 
-    public Link getSortColumnLink() 
+    public Link getSortColumnLink()
     {
-        return resources.createEventLink("sort", sortColumn);
+        Link link = linkSource.createPageRenderLink(DropdownMenuExamples.class);
+        link.addParameter("sort", sortColumn);
+        if (grid1.getSortModel().getColumnSort(sortColumn) == ColumnSort.ASCENDING)
+            link.addParameter("sortorder", "desc");
+        else
+            link.addParameter("sortorder", "asc");
+        return link;
     }
 
     public Link getResetSortLink()
     {
         return resources.createEventLink("resetSort");
-    }
-
-    void onSort(String columnName)
-    {
-        grid1.getSortModel().updateSort(columnName);
     }
 
     void onResetSort()
