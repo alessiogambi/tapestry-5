@@ -1,0 +1,35 @@
+ul.t-dropdown,ul.t-dropdown ul {
+	background: white;
+	color: #424242;
+	border: 1px solid silver;
+}
+
+ul.t-dropdown,ul.t-dropdown ul {
+	padding: 3px 0px;
+}
+
+ul.t-dropdown li {
+	padding: 2px 4px;
+}
+
+ul.t-dropdown li.t-separator {
+	border-bottom: 1px solid silver;
+}
+
+ul.t-dropdown li.t-separator-top {
+	border-top: 1px solid silver;
+}
+
+ul.t-dropdown li:hover {
+	background-color: #E6F5FF;
+}
+
+ul.t-dropdown ul {
+	width: 100%;
+}
+
+ul.t-dropdown a {
+	cursor: default;
+	text-decoration: none;
+	color: #424242;
+}

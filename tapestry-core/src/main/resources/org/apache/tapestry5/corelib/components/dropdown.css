@@ -1,0 +1,33 @@
+ul.t-dropdown,ul.t-dropdown li,ul.t-dropdown ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.t-dropdown {
+	float: left;
+}
+
+ul.t-dropdown li.t-folder { 
+	padding-right: 15px;
+	background: url("arrow_right.png") right no-repeat; 
+}
+
+ul.t-dropdown li:hover {
+	cursor: default;
+	position: relative; 
+	z-index: 999;
+}
+
+
+ul.t-dropdown ul {
+	visibility: hidden;
+	position: absolute;
+	top: -1px;
+	left: 100%;
+	z-index: 998;
+}
+
+ul.t-dropdown li:hover>ul {
+	visibility: visible;
+}

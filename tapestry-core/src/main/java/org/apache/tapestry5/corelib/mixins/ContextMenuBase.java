@@ -48,7 +48,6 @@ import java.util.List;
  * actual rendering of the menu is left to the implementing classes using one abstract method
  * {@link ContextMenuBase#renderMenu}
  * 
- * @author Dragan Sahpaski
  * @see ContextMenu
  * @see ContextMenuAjax
  * @since 5.3
@@ -63,7 +62,7 @@ public abstract class ContextMenuBase
     @SuppressWarnings("unused")
     @EmbeddedMixin("rows.gridCell")
     private ContextMenuGridCell contextMenuGridCell;
-    
+
     /**
      * A block providing the content for the context menu.
      */
@@ -114,7 +113,7 @@ public abstract class ContextMenuBase
     private ComponentResources resources;
 
     private boolean isGrid;
-    
+
     Object afterRender(MarkupWriter writer)
     {
         return render();
@@ -221,7 +220,7 @@ public abstract class ContextMenuBase
 
         return null;
     }
-   
+
     /**
      * Triggers a {@link EventConstants.CONTEXTMENU} event
      * 
