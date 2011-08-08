@@ -33,7 +33,7 @@ public class GridCurrentPage
      * This logic should be executed before setupDataSource called in the Grid setupRender phase, because it updates the
      * currentPage of the Grid.
      */
-    void setupRender()
+    void beginRender()
     {
         String pageParam = request.getParameter(getPageParameterName());
         if (pageParam == null) return;
@@ -63,10 +63,8 @@ public class GridCurrentPage
     /**
      * Non Ajax event handler for the {@link org.apache.tapestry5.corelib.components.GridPager}.
      * <p>
-     * This event handler also adds all parameters from the request to the new link. By default the request won't
-     * contain the request parameters contained in the current viewed URL, so one solution would be that the link that
-     * triggers this event is decorated and the parameters are added to the link in the page by using
-     * {@link org.apache.tapestry5.EventConstants#DECORATE_COMPONENT_EVENT_LINK}.
+     * The side effect of using this mixin is that the {@link org.apache.tapestry5.corelib.components.GridPager} action
+     * event will not be propagated any further. The event will stop here.
      */
     Object onActionFromPager(int newPage)
     {
