@@ -1,0 +1,35 @@
+ul.dropdown,ul.dropdown ul {
+	border: solid 1px silver;
+	background: white;
+	color: #424242;
+}
+
+ul.dropdown,ul.dropdown ul {
+	padding: 3px 0px;
+}
+
+ul.dropdown li {
+	padding: 2px 4px;
+}
+
+ul.dropdown li.separator {
+	border-bottom: 1px solid silver;
+}
+
+ul.dropdown li.separator-top {
+	border-top: 1px solid silver;
+}
+
+ul.dropdown li:hover {
+	background: #E6F5FF;
+}
+
+ul.dropdown ul {
+	width: 100%;
+}
+
+ul.dropdown a {
+	cursor: default;
+	text-decoration: none;
+	color: #424242;
+}

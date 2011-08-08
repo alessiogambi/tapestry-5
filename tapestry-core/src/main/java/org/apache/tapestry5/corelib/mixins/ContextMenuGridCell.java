@@ -14,37 +14,71 @@
 
 package org.apache.tapestry5.corelib.mixins;
 
-import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.MixinAfter;
+import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.corelib.components.Grid;
+import org.apache.tapestry5.corelib.components.GridRows;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
-import org.apache.tapestry5.services.PropertyOutputContext;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@MixinAfter
 public class ContextMenuGridCell
 {
+    public class GridCellOutputContext
+    {
+        private final Object objectValue;
+
+        private final String propertyName;
+
+        private final Object propertyValue;
+
+        public GridCellOutputContext(Object objectValue, String propertyName, Object propertyValue)
+        {
+            super();
+            this.objectValue = objectValue;
+            this.propertyName = propertyName;
+            this.propertyValue = propertyValue;
+        }
+
+        protected Object getObjectValue()
+        {
+            return objectValue;
+        }
+
+        protected String getPropertyName()
+        {
+            return propertyName;
+        }
+
+        protected Object getPropertyValue()
+        {
+            return propertyValue;
+        }
+
+    }
+
     public class GridOutputContext
     {
-        private Map<Object, List<PropertyOutputContext>> rowValueToCellContext;
+
+        private Map<Object, List<GridCellOutputContext>> rowValueToCellContext;
 
         public GridOutputContext()
         {
-            rowValueToCellContext = new LinkedHashMap<Object, List<PropertyOutputContext>>();
+            rowValueToCellContext = new LinkedHashMap<Object, List<GridCellOutputContext>>();
         }
 
-        public void add(PropertyOutputContext propertyOutputContext)
+        public void add(GridCellOutputContext gridCellOutputContext)
         {
-            Object row = propertyOutputContext.getObjectValue();
+            Object row = gridCellOutputContext.getObjectValue();
 
             if (!rowValueToCellContext.containsKey(row))
-                rowValueToCellContext.put(propertyOutputContext.getObjectValue(), new ArrayList<PropertyOutputContext>());
+                rowValueToCellContext.put(
+                        gridCellOutputContext.getObjectValue(), new ArrayList<GridCellOutputContext>());
 
-            rowValueToCellContext.get(row).add(propertyOutputContext);
+            rowValueToCellContext.get(row).add(gridCellOutputContext);
         }
 
         public Iterable<Object> rows()
@@ -52,20 +86,20 @@ public class ContextMenuGridCell
             return rowValueToCellContext.keySet();
         }
 
-        public Iterable<PropertyOutputContext> properties(Object row)
+        public Iterable<GridCellOutputContext> properties(Object row)
         {
             return rowValueToCellContext.get(row);
         }
     }
-    
-    @Environmental
-    private PropertyOutputContext propertyOutputContext;
 
     @Inject
     private Environment environment;
-    
+
+    @Inject
+    private ComponentResources resources;
+
     void afterRender()
-    {        
+    {
         GridOutputContext gridOutputContext = environment.peek(GridOutputContext.class);
         if (gridOutputContext == null)
         {
@@ -73,7 +107,16 @@ public class ContextMenuGridCell
             environment.push(GridOutputContext.class, gridOutputContext);
         }
 
-        gridOutputContext.add(propertyOutputContext);
+        ComponentResources gridCellResources = resources.getContainer().getComponentResources();
+        GridRows gridRows = (GridRows) gridCellResources.getContainer();
+        ComponentResources gridRowsResources = gridCellResources.getContainer().getComponentResources();
+        Grid grid = (Grid) gridRowsResources.getContainer();
+
+        final Object objectValue = grid.getRow();
+        final String propertyName = gridRows.getPropertyName();
+        final Object propertyValue = grid.getDataModel().get(gridRows.getPropertyName()).getConduit().get(objectValue);
+
+        gridOutputContext.add(new GridCellOutputContext(objectValue, propertyName, propertyValue));
     }
 
 }
