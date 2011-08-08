@@ -37,7 +37,7 @@ public class GridColumnSort
      * This logic should be executed before setupDataSource called in the Grid setupRender phase, because it updates the
      * SortModel of the Grid.
      */
-    void setupRender()
+    void beginRender()
     {
         String sortColumn = request.getParameter(getSortColumnParameterName());
 
@@ -90,11 +90,6 @@ public class GridColumnSort
      * <p>
      * The side effect of using this mixin is that the {@link org.apache.tapestry5.corelib.components.GridColumns} sort
      * event will not be propagated any further. The event will stop here.
-     * <p>
-     * This event handler also adds all parameters from the request to the new link. By default the request won't
-     * contain the request parameters contained in the current viewed URL, so one solution would be that the link that
-     * triggers this event is decorated and the parameters are added to the link in the page by using
-     * {@link org.apache.tapestry5.EventConstants#DECORATE_COMPONENT_EVENT_LINK}.
      */
     Object onSort(String columnId)
     {
