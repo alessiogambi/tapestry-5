@@ -14,7 +14,6 @@ ul.t-dropdown li.t-folder {
 }
 
 ul.t-dropdown li:hover {
-	cursor: default;
 	position: relative; 
 	z-index: 999;
 }
@@ -30,4 +29,9 @@ ul.t-dropdown ul {
 
 ul.t-dropdown li:hover>ul {
 	visibility: visible;
+}
+
+ul.t-dropdown li img {
+	margin-right: 3px;
+	vertical-align: top;
 }
