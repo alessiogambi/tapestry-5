@@ -5,10 +5,11 @@ import static com.dragansah.gsoc2011.demoapp.Constants.DEMOAPP_BRANCH;
 import static com.dragansah.gsoc2011.demoapp.Constants.DEMOAPP_JAVA_PAGES;
 import static com.dragansah.gsoc2011.demoapp.Constants.DEMOAPP_TML_PAGES;
 import static com.dragansah.gsoc2011.demoapp.Constants.GRID_ENHANCEMENTS_BRANCH;
+import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_ANNOTATIONS;
+import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_CORELIB;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_JAVA_COMPONENTS;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_MIXINS;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_SERVICES;
-import static com.dragansah.gsoc2011.demoapp.Constants.*;
 
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
@@ -19,6 +20,7 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.ContextMenuClientEvent;
 import org.apache.tapestry5.corelib.ContextMenuGridLevel;
 import org.apache.tapestry5.corelib.ContextMenuHideType;
+import org.apache.tapestry5.corelib.components.DropdownMenu;
 import org.apache.tapestry5.corelib.mixins.ContextMenu;
 import org.apache.tapestry5.corelib.mixins.ContextMenuAjax;
 import org.apache.tapestry5.corelib.mixins.ContextMenuBase;
@@ -122,12 +124,12 @@ public class Layout
 
     public String getDropdownMenuLink()
     {
-        return TAP_CORE_JAVA_COMPONENTS;// + DropdownMenu.class.getSimpleName() + ".java";
+        return CONTEXTMENU_BRANCH + TAP_CORE_JAVA_COMPONENTS + DropdownMenu.class.getSimpleName() + ".java";
     }
 
     public String getMenuItemLink()
     {
-        return TAP_CORE_JAVA_COMPONENTS + MenuItem.class.getSimpleName() + ".java";
+        return CONTEXTMENU_BRANCH + TAP_CORE_JAVA_COMPONENTS + MenuItem.class.getSimpleName() + ".java";
     }
 
     public String getGridColumnSortLink()
