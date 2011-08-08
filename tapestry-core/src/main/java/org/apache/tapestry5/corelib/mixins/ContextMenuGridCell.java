@@ -15,6 +15,7 @@
 package org.apache.tapestry5.corelib.mixins;
 
 import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.PropertyConduit;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.corelib.components.GridRows;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -114,7 +115,8 @@ public class ContextMenuGridCell
 
         final Object objectValue = grid.getRow();
         final String propertyName = gridRows.getPropertyName();
-        final Object propertyValue = grid.getDataModel().get(gridRows.getPropertyName()).getConduit().get(objectValue);
+        PropertyConduit propertyConduit = grid.getDataModel().get(gridRows.getPropertyName()).getConduit();
+        final Object propertyValue = propertyConduit != null ? propertyConduit.get(objectValue) : null;
 
         gridOutputContext.add(new GridCellOutputContext(objectValue, propertyName, propertyValue));
     }
