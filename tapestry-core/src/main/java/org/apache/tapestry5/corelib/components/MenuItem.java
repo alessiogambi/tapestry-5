@@ -87,8 +87,9 @@ public class MenuItem
                     public void render(MarkupWriter writer, RenderQueue queue)
                     {
                         Element li = writer.element("li");
-                        if (separator) li.addClassName("separator");
-                        if (separatorTop) li.addClassName("separator-top");
+                        if (resources.hasBody()) li.addClassName("t-folder");
+                        if (separator) li.addClassName("t-separator");
+                        if (separatorTop) li.addClassName("t-separator-top");
                         if (link != null) writer.element("a", "href", link);
 
                         if (icon != null)

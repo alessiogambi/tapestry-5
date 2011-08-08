@@ -1,34 +1,34 @@
-ul.dropdown,ul.dropdown ul {
-	border: solid 1px silver;
+ul.t-dropdown,ul.t-dropdown ul {
 	background: white;
 	color: #424242;
+	border: 1px solid silver;
 }
 
-ul.dropdown,ul.dropdown ul {
+ul.t-dropdown,ul.t-dropdown ul {
 	padding: 3px 0px;
 }
 
-ul.dropdown li {
+ul.t-dropdown li {
 	padding: 2px 4px;
 }
 
-ul.dropdown li.separator {
+ul.t-dropdown li.t-separator {
 	border-bottom: 1px solid silver;
 }
 
-ul.dropdown li.separator-top {
+ul.t-dropdown li.t-separator-top {
 	border-top: 1px solid silver;
 }
 
-ul.dropdown li:hover {
-	background: #E6F5FF;
+ul.t-dropdown li:hover {
+	background-color: #E6F5FF;
 }
 
-ul.dropdown ul {
+ul.t-dropdown ul {
 	width: 100%;
 }
 
-ul.dropdown a {
+ul.t-dropdown a {
 	cursor: default;
 	text-decoration: none;
 	color: #424242;

@@ -29,7 +29,7 @@ public class DropdownMenu
 {
     void beginRender(MarkupWriter writer)
     {
-        writer.element("ul").addClassName("dropdown");
+        writer.element("ul").addClassName("t-dropdown");
     }
 
     void afterRender(MarkupWriter writer)

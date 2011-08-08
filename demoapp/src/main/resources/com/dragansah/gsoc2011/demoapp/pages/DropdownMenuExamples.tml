@@ -13,7 +13,6 @@
 		<p:deleteCell>delete</p:deleteCell>
 
 		<p:contextmenu>
-		<!-- 
 			<t:dropdownmenu>
 				<t:menuitem separator="true">
 					<p:label>
@@ -26,7 +25,7 @@
 				<t:menuitem icon="context:icons/delete.jpg" label="Delete"
 					separator="true" />
 
-				<t:menuitem label="Sort by:" separator="true">
+				<t:menuitem label="Sort by" separator="true">
 					<t:loop source="sortcolumns" value="sortcolumn">
 						<t:menuitem label="prop:sortcolumn" link="sortColumnLink" />
 					</t:loop>
@@ -34,12 +33,12 @@
 						separatortop="true" />
 				</t:menuitem>
 
-				<t:menuitem label="Order columns:">
+				<t:menuitem label="Order columns">
 					<t:menuitem label="Not implemented" />
 					<t:menuitem label="Stay tuned :)" />
 				</t:menuitem>
 
-			</t:dropdownmenu> -->
+			</t:dropdownmenu>
 		</p:contextmenu>
 
 	</t:grid>
