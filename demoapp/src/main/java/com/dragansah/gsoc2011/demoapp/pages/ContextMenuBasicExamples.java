@@ -9,8 +9,26 @@ import java.util.List;
 import com.dragansah.gsoc2011.demoapp.data.Employee;
 import com.dragansah.gsoc2011.demoapp.services.dao.EmployeeService;
 
-public class LoopExamples
+public class ContextMenuBasicExamples
 {
+    public String getTest1() throws InterruptedException
+    {
+        Thread.sleep(1000);
+        return "test1";
+    }
+
+    public String getTest2() throws InterruptedException
+    {
+        Thread.sleep(1000);
+        return "test2";
+    }
+
+    @Log
+    void onContextMenu()
+    {
+
+    }
+
     @SuppressWarnings("unused")
     @Property
     private Employee employee;
@@ -28,5 +46,4 @@ public class LoopExamples
     {
         this.employee = employee;
     }
-
 }

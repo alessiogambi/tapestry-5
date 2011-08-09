@@ -1,0 +1,6 @@
+<html t:type="layout" title="EmbeddedMixin examples"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<t:beaneditform object="employee" t:mixins="autocompleteBeanEditForm"/>
+
+</html>

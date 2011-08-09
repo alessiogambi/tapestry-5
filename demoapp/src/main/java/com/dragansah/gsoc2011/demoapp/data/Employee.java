@@ -12,6 +12,11 @@ public class Employee
 
     private Integer salary;
 
+    public Employee()
+    {
+
+    }
+
     private Employee(Integer id, String firstName, String lastName, Integer salaryEuros)
     {
         super();
@@ -21,8 +26,7 @@ public class Employee
         this.salary = salaryEuros;
     }
 
-    public static Employee newEmployee(Integer id, String firstName, String lastName,
-            Integer salaryEuros)
+    public static Employee newEmployee(Integer id, String firstName, String lastName, Integer salaryEuros)
     {
         return new Employee(id, firstName, lastName, salaryEuros);
     }
@@ -81,7 +85,6 @@ public class Employee
     @Override
     public String toString()
     {
-        return "Employee [firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
-                + "]";
+        return "Employee [firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary + "]";
     }
 }

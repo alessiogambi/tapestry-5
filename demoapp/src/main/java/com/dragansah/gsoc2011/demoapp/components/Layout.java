@@ -29,6 +29,10 @@ import org.apache.tapestry5.corelib.mixins.GridColumnSort;
 import org.apache.tapestry5.corelib.mixins.GridCurrentPage;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import java.awt.MenuItem;
 
 /**
@@ -44,21 +48,33 @@ public class Layout
     private String title;
 
     @Property
-    private String pageName;
+    private String page;
 
     @Inject
     private ComponentResources resources;
 
-    public String getClassForPageName()
+    private Map<String, String> pageToPageName;
+
+    void setupRender()
     {
-        return resources.getPageName().equalsIgnoreCase(pageName) ? "current_page_item" : null;
+        pageToPageName = new LinkedHashMap<String, String>();
+        pageToPageName.put("Index", "Home");
+        pageToPageName.put("ContextMenuBasicExamples", "Basic examples");
+        pageToPageName.put("GridExamples", "Grid examples");
+        pageToPageName.put("ParametersExamples", "Parameters examples");
+        pageToPageName.put("DropdownMenuExamples", "DropdownMenu examples");
+        pageToPageName.put("GridEnhancements", "Grid Enhancements");
+        pageToPageName.put("EmbeddedMixinExamples", "EmbeddedMixin examples");
     }
 
-    public String[] getPageNames()
+    public Collection<String> getPages()
     {
-        return new String[]
-        { "Index", "BasicExamples", "AjaxExamples", "LoopExamples", "GridExamples", "ParametersExamples",
-                "DropdownMenuExamples", "GridEnhancements" };
+        return pageToPageName.keySet();
+    }
+
+    public String getPageName()
+    {
+        return pageToPageName.get(page);
     }
 
     public String getJavaClassName()

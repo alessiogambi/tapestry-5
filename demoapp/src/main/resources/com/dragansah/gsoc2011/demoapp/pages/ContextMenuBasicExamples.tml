@@ -1,0 +1,148 @@
+<html t:type="layout" title="ContextMenu Basic Examples"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<h2>Basic Examples</h2>
+	<p>
+		<t:any t:id="contextMenuAsBlock1" t:mixins="contextMenu">
+			<p:contextMenu>
+				<div>
+					<div>item 1</div>
+					<div>item 2</div>
+					<div>item 3</div>
+					<div>item 4</div>
+				</div>
+			</p:contextMenu>
+			Context Menu where block is the actual context menu.
+		</t:any>
+	</p>
+
+	<p>
+		<t:any t:id="contextMenuAsBlock2" t:mixins="contextMenu">
+			<p:contextMenu>
+				<div>menu 2</div>
+			</p:contextMenu>
+
+			Just another context menu same as the previous.
+
+		</t:any>
+	</p>
+
+	<p>
+		<t:form>
+			<t:label for="contextMenuTextField" t:mixins="contextMenu">
+				label:
+				<p:contextmenu>Menu on a label</p:contextmenu>
+			</t:label>
+
+			<t:textField t:id="contextMenuTextField" value="literal:Click Me"
+				t:mixins="contextMenu" t:contextMenu="block:contextMenuTextField">
+			</t:textField>
+
+		</t:form>
+	</p>
+
+
+	<t:block t:id="contextMenuTextField">
+		<div>Menu on a textField defined outside the component's
+			body'</div>
+	</t:block>
+
+	<br />
+
+	<h2>Ajax Examples</h2>
+
+	<p>
+		Several ajax context menus in one page, demonstrating that the
+		context
+		menu component keeps state (per context menu component in a
+		map) for
+		which zones to update, if the zone is updated etc.
+
+		<br />
+		<p>
+			The
+			<strong>map</strong>
+			has the following structure:
+			<ul class="monospace">
+				<li>The map is indexed by the id of the parent element</li>
+				<li>map[parentId]['contextMenuId'] = the id of the context menu</li>
+				<li>map[parentId]['spec'] = spec for new Tapestry.ZoneManager(spec)</li>
+				<li>map[parentId]['isZoneUpdated'] = if the context menu content was
+					fetched from the server</li>
+			</ul>
+		</p>
+
+	</p>
+
+	<p>
+		<t:any t:mixins="contextmenuajax" contextmenu="block:contextmenu1">
+			<span>Ajax example 1: Click Me (delay 1 sec)</span>
+		</t:any>
+	</p>
+
+	<t:block t:id="contextMenu1">
+		${test1}
+	</t:block>
+
+	<p>
+		<t:any t:mixins="contextmenuajax">
+			<span>Ajax example 2: Click Me (delay 1 sec)</span>
+			<p:contextmenu>
+				${test2}
+			</p:contextmenu>
+		</t:any>
+	</p>
+
+	<br />
+
+	<h2>Loop examples</h2>
+	<p>Right click an employee to see its salary:</p>
+
+	<h3>
+		Example 1: Menu for each element.
+	</h3>
+	<div t:type="loop" source="employees" value="employee">
+
+		<t:any t:mixins="contextMenu">
+			${employee.name}
+			<p:contextMenu>
+				<div>${employee.salary}</div>
+			</p:contextMenu>
+		</t:any>
+
+	</div>
+
+	<br />
+
+	<h3>
+		Example 2: Menu for each element.
+	</h3>
+	<div t:type="loop" source="employees" value="employee">
+
+		<t:any t:mixins="contextMenu">
+			${employee.name}
+			<p:contextMenu>
+				<div>${employee.salary}</div>
+			</p:contextMenu>
+		</t:any>
+
+	</div>
+
+	<br />
+
+	<h3>
+		Example 3: Ajax menu for each element where the
+		<strong>employee.firstName and employee.lastName</strong>
+		are passed as a context parameter in the context menu component.
+	</h3>
+	<div t:type="loop" source="employees" value="employee">
+		<t:any t:mixins="contextMenuajax" context="employee.id">
+			${employee.name}
+			<p:contextMenu>
+				salary: ${employee.salary}
+			</p:contextMenu>
+		</t:any>
+
+	</div>
+
+</html>

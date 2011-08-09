@@ -41,7 +41,7 @@ h1 {
 
 h2 {
     letter-spacing: -1px;
-    font-size: 2em;
+    font-size: 1.7em;
 }
 
 h3 {
@@ -118,7 +118,7 @@ a:hover {
     padding: 10px 20px 0px 20px;
     text-decoration: none;
     text-align: center;
-    text-transform: lowercase;
+    /* text-transform: lowercase; */
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-weight: normal;
     font-size: 14px;
