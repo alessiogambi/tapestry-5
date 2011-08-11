@@ -315,6 +315,11 @@ public final class MutableComponentModelImpl implements MutableComponentModel
         return result;
     }
     
+    public String[] getOrderForEmbeddedMixin(String mixinClassName)
+    {
+        return InternalUtils.get(embeddedMixinOrders, mixinClassName);
+    }
+
     public String getComponentIdForEmbeddedMixin(String mixinClassName)
     {
         String componentId = InternalUtils.get(embeddedMixinToComponentId, mixinClassName);

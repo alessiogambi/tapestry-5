@@ -124,6 +124,8 @@ public class PageLoaderImpl implements PageLoader, InvalidationListener, Compone
 
     private final Map<Key, ComponentAssembler> cache = CollectionFactory.newConcurrentMap();
 
+    private Map<String, List<String>> componentIdToMixins = CollectionFactory.newConcurrentMap();
+
     private final ComponentInstantiatorSource instantiatorSource;
 
     private final ComponentTemplateSource templateSource;
@@ -980,8 +982,6 @@ public class PageLoaderImpl implements PageLoader, InvalidationListener, Compone
             }
         });
     }
-
-    private Map<String, List<String>> componentIdToMixins = CollectionFactory.newConcurrentMap();
     
     private void addEmbeddedMixins(ComponentPageElement newElement, EmbeddedComponentAssemblerImpl embeddedAssembler)
     {
@@ -1012,9 +1012,10 @@ public class PageLoaderImpl implements PageLoader, InvalidationListener, Compone
                     {
                         Instantiator mixinsInstantiator = instantiatorSource.getInstantiator(embeddedMixinClass);
                         String componentId = mixinModel.getComponentIdForEmbeddedMixin(embeddedMixinClass);
+                        String[] order = mixinModel.getOrderForEmbeddedMixin(embeddedMixinClass);
                         // does the embedded mixin apply to the current component 
                         if (componentId.equalsIgnoreCase(newElementId))
-                            newElement.addMixin(embeddedMixinClass, mixinsInstantiator);
+                            newElement.addMixin(embeddedMixinClass, mixinsInstantiator, order);
                     }
                 }
             }

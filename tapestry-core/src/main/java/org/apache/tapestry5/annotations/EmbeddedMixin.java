@@ -25,8 +25,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Allows embedding mixins in other mixins. This annotation may be placed only on a field in a mixin. The embedded mixin
- * can be applied to embedded components of the component the parent mixin is applied to.
+ * Allows embedding mixins in other mixins. This annotation may be placed only on a mixin field in a mixin class. The
+ * embedded mixin is applied to embedded components of the component the parent mixin is applied to.
  * 
  * @since 5.3
  */
@@ -37,10 +37,11 @@ import java.lang.annotation.Target;
 public @interface EmbeddedMixin
 {
     String value();
-    
+
     /**
      * Defines an ordering constraint for when the embedded mixin should be applied in relation to other embedded
      * mixins. The string is analogous exactly to the strings used to define ordered contributions. Eg:
+     * 
      * @EmbeddedMixin(order={"before:mixina","after:mixinb" ).
      */
     String[] order() default {};
