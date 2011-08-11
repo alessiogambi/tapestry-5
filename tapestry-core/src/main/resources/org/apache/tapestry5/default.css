@@ -497,4 +497,5 @@ DIV.t-available-values UL LI
 DIV.t-contextmenu {
 	background-color: white;
 	border: 1px solid silver;
+	padding: 2px 5px;
 }

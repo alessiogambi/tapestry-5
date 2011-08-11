@@ -2294,7 +2294,7 @@ public final class TapestryModule
         // This should be overridden for particular applications. These are the
         // locales for which we have (at least some) localized messages.
         configuration.add(SymbolConstants.SUPPORTED_LOCALES,
-                "en,it,es,zh_CN,pt_PT,de,ru,hr,fi_FI,sv_SE,fr_FR,da,pt_BR,ja,el,bg,no_NB,sr_RS");
+                "en,it,es,zh_CN,pt_PT,de,ru,hr,fi_FI,sv_SE,fr_FR,da,pt_BR,ja,el,bg,no_NB,sr_RS,mk_MK");
 
         configuration.add(SymbolConstants.TAPESTRY_VERSION,
                 VersionUtils.readVersionNumber("META-INF/gradle/org.apache.tapestry/tapestry-core/project.properties"));
@@ -2374,6 +2374,8 @@ public final class TapestryModule
 
         configuration.add(SymbolConstants.PAGE_SOURCE_CHECK_INTERVAL, "5 m");
         configuration.add(SymbolConstants.PAGE_SOURCE_ACTIVE_WINDOW, "15 m");
+
+        configuration.add(SymbolConstants.UNKNOWN_COMPONENT_ID_CHECK_ENABLED, true);
     }
 
     /**
@@ -2622,6 +2624,8 @@ public final class TapestryModule
      * <dd>Checks for <code>sun.reflect</code> (which are omitted)
      * <dt>TapestryAOP</dt>
      * <dd>Omits stack frames for classes related to Tapestry AOP (such as advice, etc.)</dd>
+     * <dt>OperationTracker</dt>
+     * <dd>Omits stack frames related to {@link OperationTracker}</dd>
      * </dl>
      *
      * @since 5.1.0.0
@@ -2635,6 +2639,7 @@ public final class TapestryModule
         configuration.add("SunReflect", new PrefixCheckStackTraceElementAnalyzer(
                 StackTraceElementClassConstants.OMITTED, "sun.reflect."));
         configuration.addInstance("TapestryAOP", TapestryAOPStackFrameAnalyzer.class, "before:Application");
+        configuration.add("OperationTracker", new RegexpStackTraceElementAnalyzer(Pattern.compile("internal\\.(RegistryImpl|PerThreadOperationTracker|OperationTrackerImpl)\\.invoke\\("), StackTraceElementClassConstants.OMITTED));
     }
 
     /**

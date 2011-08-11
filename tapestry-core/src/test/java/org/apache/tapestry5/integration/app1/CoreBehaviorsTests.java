@@ -140,7 +140,7 @@ public class CoreBehaviorsTests extends TapestryCoreTestCase
 
         // And exception message:
 
-        assertTextPresent("Component InjectContainerMismatch is not assignable to field org.apache.tapestry5.corelib.mixins.RenderDisabled.field (of type org.apache.tapestry5.Field).");
+        assertTextPresent("Component InjectContainerMismatch (type org.apache.tapestry5.integration.app1.pages.InjectContainerMismatch) is not assignable to field org.apache.tapestry5.corelib.mixins.RenderDisabled.field (of type org.apache.tapestry5.Field).");
     }
 
     @Test
@@ -1055,12 +1055,10 @@ public class CoreBehaviorsTests extends TapestryCoreTestCase
 
         click("link=ajax");
 
-        waitForCSSSelectedElementToAppear("div.t-console div");
+        waitForCSSSelectedElementToAppear("div.t-console div.t-err");
 
-        // I've seen this fail, rarely.  Appears to be a timing issue. Screen shot includes "faded" values for the console, so we could be checking too soon
-        // or too late.
-
-        assertTextPresent("Communication with the server failed: Request event 'action' (on component UnhandledEventDemo:ajax) was not handled; you must provide a matching event handler method in the component or in one of its containers.");
+        assertText(
+                "css=div.t-console div.t-err", "Communication with the server failed: Request event 'action' (on component UnhandledEventDemo:ajax) was not handled; you must provide a matching event handler method in the component or in one of its containers.");
     }
 
     /**

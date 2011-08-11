@@ -56,6 +56,10 @@ public class Index
     private static final List<Item> ITEMS = CollectionFactory
             .newList(
 
+                    new Item("ComponentInsideBlockDemo", "Component Inside Block Demo", "Verify that a component, inside a block, is still an embedded "),
+
+                    new Item("EventMethodUnmatchedComponentId", "Unmatched Component Id in Event Method Demo", "Show that referencing a component that does not exist in an event handler method name is an error."),
+
                     new Item("AlertsDemo", "Alerts Demo", "Managing alerts both traditional and Ajax"),
 
                     new Item("ClientConsoleDemo", "Client Console Demo", "Demo for the JavaScript client-side console"),
@@ -490,6 +494,7 @@ public class Index
                     new Item("ContextMenuDemo", "Context Menu Demo", "Basic Context Menu demo"),
          
                     new Item("GridCurrentPageAndColumnSortMixinDemo", "GridCurrentPage and GridColumnSort Mixin Demo", "GridCurrentPage and GridColumnSort mixins works properly")
+
             );
 
     static

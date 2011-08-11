@@ -62,7 +62,7 @@ class AlertsTests extends SeleniumTestCase
 
         click "//input[@value='Ajax Update']"
 
-        sleep 100
+        sleep 200
 
         assertTextPresent "ajax error until"
 
@@ -71,6 +71,27 @@ class AlertsTests extends SeleniumTestCase
         // Check that the alert container is now empty
 
         assertText "css=.t-alert-container", ""
+    }
+
+    @Test
+    void ajax_update_with_redirect() {
+
+        openLinks "Alerts Demo", "reset"
+
+        select "css=#ajax select[name=\"severity\"]", "Error"
+        select "css=#ajax select[name=\"duration\"]", "Single"
+        type "css=#ajax input[name=\"message\"]", "ajax error single"
+        check "css=#ajax input[type='checkbox']"
+
+        click "//input[@value='Ajax Update']"
+
+        sleep 100
+
+        waitForCSSSelectedElementToAppear "div.t-error"
+
+        assertText "css=div.t-error div.t-message-container", "ajax error single"
+
+        click "link=Dismiss all"
     }
 
 }

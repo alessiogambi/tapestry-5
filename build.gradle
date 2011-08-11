@@ -6,7 +6,11 @@ testngVersion = '5.14.9'
 easymockVersion = '3.0'
 servletAPIVersion = '2.4'
 
-version = '5.3-alpha-10'
+// Provided so that Jenkins can override the normal version number for nightly builds.
+version = System.getProperty('project-version', '5.3-alpha-12')
+
+stagingUrl = "https://repository.apache.org/service/local/staging/deploy/maven2/"
+snapshotUrl = "https://repository.apache.org/content/repositories/snapshots"
 
 doSign = !project.hasProperty('noSign') && project.hasProperty("signing.keyId")
 
@@ -50,6 +54,12 @@ subprojects {
   
   sourceCompatibility = '1.5'
   targetCompatibility = '1.5'
+
+  // This may be temporary, to help track down/verify the ProQuest production deployment
+  // issue.
+  compileJava {
+    debug = false
+  }
       
   group = 'org.apache.tapestry'  
   
@@ -119,10 +129,9 @@ subprojects {
   
   // apacheDeployUserName and apacheDeployPassword should be specified in ~/.gradle/gradle.properties
   
-  deployUsernameProperty = "apacheDeployUserName"
-  deployPasswordProperty = "apacheDeployPassword"
+  deployUsernameProperty = isSnapshot() ? "snapshotDeployUserName" : "apacheDeployUserName"
+  deployPasswordProperty = isSnapshot() ? "snapshotDeployPassword" : "apacheDeployPassword"
   canDeploy = [deployUsernameProperty, deployPasswordProperty].every { project.hasProperty(it) }
-  
     
   uploadPublished  {
   
@@ -146,9 +155,13 @@ subprojects {
             }
           }          
 
-          repository(url: "https://repository.apache.org/service/local/staging/deploy/maven2/") {
-            authentication(userName: apacheDeployUserName, password: apacheDeployPassword)
-          }        
+          repository(url: stagingUrl) {
+            authentication(userName: project.getProperty(deployUsernameProperty), password: project.getProperty(deployPasswordProperty))
+          }
+		  
+		  snapshotRepository(url: snapshotUrl) {
+            authentication(userName: project.getProperty(deployUsernameProperty), password: project.getProperty(deployPasswordProperty))
+          }
         }
       }
     }
@@ -216,7 +229,7 @@ task clean(type: Delete) {
   delete buildDirName
 }
 
-task continuousIntegration(dependsOn: [subprojects.build, 'aggregateJavadoc'], 
+task continuousIntegration(dependsOn: [subprojects.build, 'aggregateJavadoc', subprojects.uploadPublished], 
   description: "Task executed on Jenkins CI server after SVN commits")
 
 task generateRelease(dependsOn: ['continuousIntegration', subprojects.uploadPublished, 'zippedSources', 'zippedJavadoc'], 
@@ -256,4 +269,8 @@ task zippedJavadoc(type: Zip, dependsOn: aggregateJavadoc) {
   
   from javadocBuildDir.dir
   into "apidocs"
+}
+
+boolean isSnapshot() {
+  project.version.contains('SNAPSHOT')
 }
