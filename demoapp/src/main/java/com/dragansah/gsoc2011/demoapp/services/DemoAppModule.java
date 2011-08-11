@@ -1,12 +1,8 @@
 package com.dragansah.gsoc2011.demoapp.services;
 
 import org.apache.tapestry5.ValueEncoder;
-import org.apache.tapestry5.annotations.Service;
-import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
-import org.apache.tapestry5.ioc.services.Coercion;
-import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.ValueEncoderFactory;
 
 import com.dragansah.gsoc2011.demoapp.data.Employee;
@@ -19,21 +15,7 @@ public class DemoAppModule
     {
         binder.bind(EmployeeService.class, EmployeeServiceImpl.class);
     }
-
-    @SuppressWarnings("rawtypes")
-    public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration,
-            @Service("EmployeeService") final EmployeeService employeeService)
-    {
-        configuration.add(CoercionTuple
-                .create(String.class, Employee.class, new Coercion<String, Employee>()
-                {
-                    public Employee coerce(String input)
-                    {
-                        return employeeService.findById(Integer.valueOf(input));
-                    }
-                }));
-    }
-
+    
     @SuppressWarnings("rawtypes")
     public static void contributeValueEncoderSource(
             MappedConfiguration<Class, ValueEncoderFactory> configuration,
