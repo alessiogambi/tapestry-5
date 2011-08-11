@@ -65,7 +65,7 @@
 								<a href="${ContextMenuGridCellLink}" style="margin-right:10px;">ContextMenuGridCell.java
 								</a>
 								<br />
-								<a href="${ContextMenuGridLevelLink}" style="margin-right:10px;">ContextMenuGridLevel.java
+								<a href="${GridContextLevelLink}" style="margin-right:10px;">GridContextLevel.java
 								</a>
 								<br />
 								<a href="${ContextMenuClientEventLink}" style="margin-right:10px;">ContextMenuClientEvent.java

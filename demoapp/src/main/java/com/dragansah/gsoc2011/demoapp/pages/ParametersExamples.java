@@ -2,7 +2,7 @@ package com.dragansah.gsoc2011.demoapp.pages;
 
 import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.ContextMenuClientEvent;
+import org.apache.tapestry5.contextmenu.ContextMenuClientEvent;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class ParametersExamples
     {
         return new ContextMenuClientEvent[]
         { ContextMenuClientEvent.CONTEXT, ContextMenuClientEvent.MOUSEDOWN,
-                ContextMenuClientEvent.MOUSEOVER, ContextMenuClientEvent.MOUSEOVERMOVE };
+                ContextMenuClientEvent.MOUSEOVER, ContextMenuClientEvent.MOUSEMOVE };
     }
 
 }

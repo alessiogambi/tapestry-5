@@ -26,12 +26,12 @@ import org.apache.tapestry5.annotations.Events;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectContainer;
 import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.corelib.ContextMenuClientEvent;
-import org.apache.tapestry5.corelib.ContextMenuGridLevel;
-import org.apache.tapestry5.corelib.ContextMenuHideType;
+import org.apache.tapestry5.contextmenu.ContextMenuClientEvent;
+import org.apache.tapestry5.contextmenu.ContextMenuHideType;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell.GridCellOutputContext;
 import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell.GridOutputContext;
+import org.apache.tapestry5.grid.GridContextLevel;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.runtime.RenderCommand;
@@ -86,7 +86,7 @@ public abstract class ContextMenuBase
      * {@link ContextMenuGridLevel#CELL}. This parameter is only used if the mixin is aplied by a {@link Grid}.
      */
     @Parameter(value = "CELL", defaultPrefix = BindingConstants.LITERAL)
-    private ContextMenuGridLevel menuLevel;
+    private GridContextLevel menuLevel;
 
     /**
      * The javascript client event that triggers the context menu
@@ -129,7 +129,7 @@ public abstract class ContextMenuBase
          * Render either a regular context menu or {@link GridContextMenuLevel.GRID} level context menu if the context
          * menu is applied to a {@link Grid}.
          */
-        if (!isGrid || menuLevel == ContextMenuGridLevel.GRID)
+        if (!isGrid || menuLevel == GridContextLevel.GRID)
         {
             final String contextMenuId = javaScriptSupport.allocateClientId(resources);
             if (environment.peek(GridOutputContext.class) != null) environment.pop(GridOutputContext.class);
@@ -141,7 +141,7 @@ public abstract class ContextMenuBase
          * Render a {@link GridContextMenuLevel.CELL} level context menu on a {@link Grid}.
          */
         GridOutputContext gridOutputContext = environment.pop(GridOutputContext.class);
-        if (menuLevel == ContextMenuGridLevel.CELL)
+        if (menuLevel == GridContextLevel.CELL)
         {
             final List<RenderCommand> renderCommands = new ArrayList<RenderCommand>();
             int i = 0;
@@ -170,7 +170,7 @@ public abstract class ContextMenuBase
         /**
          * Render a {@link GridContextMenuLevel.ROW} level context menu on a {@link Grid}.
          */
-        if (menuLevel == ContextMenuGridLevel.ROW)
+        if (menuLevel == GridContextLevel.ROW)
         {
             int i = 0;
             final List<RenderCommand> renderCommands = new ArrayList<RenderCommand>();

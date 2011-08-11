@@ -6,11 +6,12 @@ import static com.dragansah.gsoc2011.demoapp.Constants.DEMOAPP_JAVA_PAGES;
 import static com.dragansah.gsoc2011.demoapp.Constants.DEMOAPP_TML_PAGES;
 import static com.dragansah.gsoc2011.demoapp.Constants.GRID_ENHANCEMENTS_BRANCH;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_ANNOTATIONS;
-import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_CORELIB;
+import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_BASE;
+import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_BASE_PACKAGE;
+import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_CONTEXTMENU;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_JAVA_COMPONENTS;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_MIXINS;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_SERVICES;
-import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_BASE_PACKAGE;
 
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
@@ -19,9 +20,8 @@ import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.KeepRequestParameters;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.ContextMenuClientEvent;
-import org.apache.tapestry5.corelib.ContextMenuGridLevel;
-import org.apache.tapestry5.corelib.ContextMenuHideType;
+import org.apache.tapestry5.contextmenu.ContextMenuClientEvent;
+import org.apache.tapestry5.contextmenu.ContextMenuHideType;
 import org.apache.tapestry5.corelib.components.DropdownMenu;
 import org.apache.tapestry5.corelib.mixins.ContextMenu;
 import org.apache.tapestry5.corelib.mixins.ContextMenuAjax;
@@ -30,6 +30,7 @@ import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell;
 import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell.GridOutputContext;
 import org.apache.tapestry5.corelib.mixins.GridColumnSort;
 import org.apache.tapestry5.corelib.mixins.GridCurrentPage;
+import org.apache.tapestry5.grid.GridContextLevel;
 import org.apache.tapestry5.internal.transform.EmbeddedMixinWorker;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
@@ -119,7 +120,7 @@ public class Layout
 
     public String getContextMenuBaseLink()
     {
-        return CONTEXTMENU_BRANCH + TAP_CORE_MIXINS + ContextMenuBase.class.getSimpleName() + ".java";
+        return CONTEXTMENU_BRANCH + TAP_CORE_BASE + ContextMenuBase.class.getSimpleName() + ".java";
     }
 
     public String getContextMenuAjaxLink()
@@ -134,8 +135,7 @@ public class Layout
 
     public String getContextMenuJsLink()
     {
-        return CONTEXTMENU_BRANCH
-                + "tapestry-core/src/main/resources/org/apache/tapestry5/corelib/mixins/contextmenu.js";
+        return CONTEXTMENU_BRANCH + "tapestry-core/src/main/resources/org/apache/tapestry5/corelib/base/contextmenu.js";
     }
 
     public String getGridOutputContextLink()
@@ -145,17 +145,17 @@ public class Layout
 
     public String getContextMenuClientEventLink()
     {
-        return CONTEXTMENU_BRANCH + TAP_CORE_CORELIB + ContextMenuClientEvent.class.getSimpleName() + ".java";
+        return CONTEXTMENU_BRANCH + TAP_CORE_CONTEXTMENU + ContextMenuClientEvent.class.getSimpleName() + ".java";
     }
 
     public String getContextMenuHideTypeLink()
     {
-        return CONTEXTMENU_BRANCH + TAP_CORE_CORELIB + ContextMenuHideType.class.getSimpleName() + ".java";
+        return CONTEXTMENU_BRANCH + TAP_CORE_CONTEXTMENU + ContextMenuHideType.class.getSimpleName() + ".java";
     }
 
-    public String getContextMenuGridLevelLink()
+    public String getGridContextLevelLink()
     {
-        return CONTEXTMENU_BRANCH + TAP_CORE_CORELIB + ContextMenuGridLevel.class.getSimpleName() + ".java";
+        return CONTEXTMENU_BRANCH + TAP_CORE_BASE_PACKAGE + "grid/" + GridContextLevel.class.getSimpleName() + ".java";
     }
 
     public String getDropdownMenuLink()
