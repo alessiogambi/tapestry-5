@@ -15,6 +15,8 @@ public class Constants
     public static final String DEMOAPP_BASE_PACKAGE = "demoapp/src/main/java/com/dragansah/gsoc2011/demoapp/";
 
     public static final String DEMOAPP_JAVA_PAGES = DEMOAPP_BASE_PACKAGE + "pages/";
+    
+    public static final String DEMOAPP_MIXINS = DEMOAPP_BASE_PACKAGE + "mixins/";
 
     public static final String TAP_CORE_BASE_PACKAGE = "tapestry-core/src/main/java/org/apache/tapestry5/";
     

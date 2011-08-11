@@ -10,9 +10,11 @@ import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_CORELIB;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_JAVA_COMPONENTS;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_MIXINS;
 import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_SERVICES;
+import static com.dragansah.gsoc2011.demoapp.Constants.TAP_CORE_BASE_PACKAGE;
 
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.annotations.EmbeddedMixin;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.KeepRequestParameters;
 import org.apache.tapestry5.annotations.Parameter;
@@ -24,9 +26,11 @@ import org.apache.tapestry5.corelib.components.DropdownMenu;
 import org.apache.tapestry5.corelib.mixins.ContextMenu;
 import org.apache.tapestry5.corelib.mixins.ContextMenuAjax;
 import org.apache.tapestry5.corelib.mixins.ContextMenuBase;
+import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell;
 import org.apache.tapestry5.corelib.mixins.ContextMenuGridCell.GridOutputContext;
 import org.apache.tapestry5.corelib.mixins.GridColumnSort;
 import org.apache.tapestry5.corelib.mixins.GridCurrentPage;
+import org.apache.tapestry5.internal.transform.EmbeddedMixinWorker;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import java.util.Collection;
@@ -97,6 +101,17 @@ public class Layout
         return DEMOAPP_BRANCH + DEMOAPP_TML_PAGES + getTmlName();
     }
 
+    public String getEmbeddedMixinLink()
+    {
+        return CONTEXTMENU_BRANCH + TAP_CORE_ANNOTATIONS + EmbeddedMixin.class.getSimpleName() + ".java";
+    }
+
+    public String getEmbeddedMixinWorkerLink()
+    {
+        return CONTEXTMENU_BRANCH + TAP_CORE_BASE_PACKAGE + "internal/transform/"
+                + EmbeddedMixinWorker.class.getSimpleName() + ".java";
+    }
+
     public String getContextMenuLink()
     {
         return CONTEXTMENU_BRANCH + TAP_CORE_MIXINS + ContextMenu.class.getSimpleName() + ".java";
@@ -110,6 +125,11 @@ public class Layout
     public String getContextMenuAjaxLink()
     {
         return CONTEXTMENU_BRANCH + TAP_CORE_MIXINS + ContextMenuAjax.class.getSimpleName() + ".java";
+    }
+
+    public String getContextMenuGridCellLink()
+    {
+        return CONTEXTMENU_BRANCH + TAP_CORE_MIXINS + ContextMenuGridCell.class.getSimpleName() + ".java";
     }
 
     public String getContextMenuJsLink()

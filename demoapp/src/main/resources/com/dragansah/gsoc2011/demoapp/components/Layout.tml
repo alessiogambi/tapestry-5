@@ -39,6 +39,17 @@
 							<div
 								style="right: 20px; top:60px; position:absolute; 
 								background-color:#fafafa; border:1px solid silver; padding:10px;">
+								@EmbeddedMixin:
+								<br />
+								<a href="${EmbeddedMixinLink}" style="margin-right:10px;">
+									EmbeddedMixin.java
+								</a>
+								<br />
+								<a href="${EmbeddedMixinWorkerLink}" style="margin-right:10px;">
+									EmbeddedMixinWorker.java
+								</a>
+								<br />
+								<br />
 								Context Menu:
 								<br />
 								<a href="${ContextMenuJsLink}" style="margin-right:10px;">contextmenu.js</a>
@@ -49,6 +60,9 @@
 								<a href="${ContextMenuLink}" style="margin-right:10px;">ContextMenu.java</a>
 								<br />
 								<a href="${ContextMenuAjaxLink}" style="margin-right:10px;">ContextMenuAjax.java
+								</a>
+								<br />
+								<a href="${ContextMenuGridCellLink}" style="margin-right:10px;">ContextMenuGridCell.java
 								</a>
 								<br />
 								<a href="${ContextMenuGridLevelLink}" style="margin-right:10px;">ContextMenuGridLevel.java

@@ -1,6 +1,46 @@
 <html t:type="layout" title="EmbeddedMixin examples"
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
 
-	<t:beaneditform object="employee" t:mixins="autocompleteBeanEditForm"/>
+	<style type="text/css">
+		table tbody{
+		cursor: pointer;
+		}
+		tr.t-selected {
+		background: #A8D2FF;
+		}
+	</style>
+
+	<p>
+		<strong>Grid:</strong>
+		click on a row to edit the employee. The select behavior is
+		accomplished by applying the
+		<a href="${GridSelectLink}">GridSelect</a>
+		mixin having
+		<a href="${ContextMenuGridCellLink}">ContextMenuGridCell</a>
+		as an @EmbeddedMixin.
+	</p>
+
+	<t:grid t:id="grid1" source="employees" t:mixins="gridSelect" />
+
+	<br />
+
+	<p>
+		<strong>Bean Edit Form:</strong>
+		<br />
+		Uses a
+		<a href="${beanEditFormMixinLink}">BeanEditFormMixin</a>
+		with an @EmbeddedMixin -
+		<a href="${propertyEditorMixinLink}">PopertyEditorMixin</a>
+		, to display context info
+		about each
+		property
+		editor using afterRender on
+		PropertyEditor and
+		reading from
+		PropertyEditContext.
+	</p>
+	<t:zone t:id="beanEditFormZone" id="beanEditFormZone">
+		<t:beaneditform object="employee" t:mixins="beanEditFormMixin" />
+	</t:zone>
 
 </html>
