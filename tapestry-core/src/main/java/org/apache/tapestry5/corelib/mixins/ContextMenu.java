@@ -16,8 +16,9 @@ package org.apache.tapestry5.corelib.mixins;
 
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.annotations.EmbeddedMixin;
-import org.apache.tapestry5.corelib.components.Grid;
+import org.apache.tapestry5.ValueEncoder;
+import org.apache.tapestry5.corelib.base.ContextMenuBase;
+import org.apache.tapestry5.grid.GridContextLevel;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.runtime.RenderCommand;
@@ -25,20 +26,57 @@ import org.apache.tapestry5.runtime.RenderQueue;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
- * A non ajax version of a context menu component implemented as mixin. When it renders it fires a
- * {@link EventConstants#CONTEXTMENU} notification.
- * <p/>
- * This mixin has special behavior when used with a {@link Grid} component. It can be configured to be used in 3 levels
- * configured with {@link ContextMenuBase#menuLevel}.
- * <p/>
- * TODO: Document the event context
+ * Context menu mixin that adds context menu behavior on the component it is applied on. The mixin renders a div
+ * containing a block passed with the {@link ContextMenuBase#contextMenu} parameter, which fires an
+ * {@link EventConstants#CONTEXTMENU} event before it renders the block. In the non ajax version of the mixin the event
+ * is fired during rendering of the Context Menu element. In the ajax version of the mixin the event is fired after an
+ * ajax call triggered by the corresponding DOM event (set with the {@link ContextMenuBase#clientEvent} parameter). In
+ * the Ajax version all the context parameters are encoded using a {@link ValueEncoder}.
+ * <p>
+ * This mixin has special behavior when used with the {@link org.apache.tapestry5.corelib.components.Grid} component and
+ * can be configured to be used in 3 levels configured with {@link ContextMenuBase#menuLevel}.
+ * <p>
+ * <ul>
+ * <li>{@link GridContextLevel#CELL}: A context menu DOM element is build for each cell in the grid, which is the
+ * default behavior. The {@link EventConstants#CONTEXTMENU} event context has the following structure:
+ * <ol>
+ * <li>Object object: the current object being rendered (for the current row).</li>
+ * <li>String propertyName: the name of the property rendered in the grid cell.</li>
+ * <li>Object propertyValue: the value of the property rendered in the grid cell.</li>
+ * <li>Object... context: the {@link ContextMenuBase#context} parameter of the mixin.</li>
+ * </ol>
+ * <p>
+ * The objectValue and the propertyValue can be encoded back to a concrete type because they are encoded to and decoded
+ * back the client via a corresponding {@link ValueEncoder}.
+ * <p>
+ * Usage example:
+ * <code>void onContextMenu(Object object, String propertyName, Object propertyValue, Object... context)</code></li> <br>
+ * <li>{@link GridContextLevel#ROW}: A context menu DOM element is build for each row in the grid. The
+ * {@link EventConstants#CONTEXTMENU} event context has the following structure:
+ * <ol>
+ * <li>Object object: the current object being rendered (for the current row).</li>
+ * <li>Object... context: the {@link ContextMenuBase#context} parameter of the mixin.</li>
+ * </ol>
+ * <p>
+ * The objectValue can be encoded back to a concrete type because it is encoded to and decoded back the client via a
+ * corresponding {@link ValueEncoder}.
+ * <p>
+ * Usage example: <code>void onContextMenu(Object object, Object... context)</code></li>
+ * <li>{@link GridContextLevel#GRID}: Only one context menu DOM element is build for the entire grid.
+ * <p>
+ * Usage example: <code>void onContextMenu(Object... context)</code></li>
+ * </ul>
  * 
+ * @see ContextMenuAjax
+ * @see org.apache.tapestry5.contextmenu.ContextMenuClientEvent
+ * @see org.apache.tapestry5.contextmenu.ContextMenuHideType
+ * @see GridContextLevel
  * @see ContextMenuAjax
  * @since 5.3
  * @tapestrydoc
  */
 public class ContextMenu extends ContextMenuBase
-{    
+{
     @Inject
     private JavaScriptSupport javaScriptSupport;
 
