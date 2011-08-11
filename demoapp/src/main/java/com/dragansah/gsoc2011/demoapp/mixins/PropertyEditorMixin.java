@@ -11,7 +11,8 @@ public class PropertyEditorMixin
 
     void afterRender(MarkupWriter writer)
     {
-        writer.element("span").text("context:" + propertyEditContext.getPropertyId());
+        writer.element("span").text(
+                "context:" + propertyEditContext.getPropertyId() + " " + propertyEditContext.getPropertyValue());
         writer.end();
     }
 }
